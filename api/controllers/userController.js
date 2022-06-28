@@ -82,7 +82,8 @@ const updateStatus = async (req, res) => {
 const addLikedItem = async (req, res) => {
     try {
         const userId = req.params.id;
-        const newLikedItem = req.body["new_liked_item"];
+        let newLikedItem = req.body["new_liked_item"];
+        newLikedItem['completed'] = 'false';
         const updatedData = {
             $push: { "liked_items": newLikedItem }
         };

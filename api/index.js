@@ -19,7 +19,9 @@ mongoose.connect(process.env.DB_URI, {useNewUrlParser: true, useUnifiedTopology:
     .catch((err) => console.log(err));
 
 // Apply CORS policy
-app.use(cors())
+app.use(cors({
+    origin: 'http://localhost:3000'
+}));
 
 
 // Assign the PORT to our app

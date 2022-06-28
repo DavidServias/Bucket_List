@@ -3,6 +3,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { ReactSVG } from 'react-svg';
 import './css/profile.css';
 
+//getUserById("62b62c2b14d8eed1db9ea1a8");
+
+
 class ProfileTopRow extends React.Component {
     
     render() {
@@ -14,14 +17,14 @@ class ProfileTopRow extends React.Component {
                     {user.bucket_list.map(function (item) {
                         return (
                           <Item text={item['text']} 
-                                complete={item['complete']} />  
+                                completed={item['completed']} />  
                         );}                       
                     )}                  
                 </div>
                 <div className="main-top-row-div bucket-img-box col-lg-4">
                     <ReactSVG className="bucket-img" src="bucket_image.svg" />
                     <h1 className="name">{user.profile_name}</h1>
-                    <h4>status: "happy"</h4>
+                    <h4>status: "{user.status}"</h4>
                 </div>
                 <div className="main-top-row-div col-lg-4">
                     <h2>My Bucket Buddies</h2> 
@@ -39,7 +42,7 @@ class Item extends React.Component {
     //warning says that no constructor is needed here.
     render() {
         let textDecoration = "none";
-        if (this.props.complete) {
+        if (this.props.completed) {
             textDecoration = "line-through"
         }
         return (
@@ -51,7 +54,7 @@ class Item extends React.Component {
                         {this.props.text}</p>
                 </span>
                 <span className="item-right">
-                    {this.props.complete ? 
+                    {this.props.completed ? 
                         <ReactSVG className="square-icon" 
                         src="check-square.svg" /> :
                         <ReactSVG className="square-icon" 

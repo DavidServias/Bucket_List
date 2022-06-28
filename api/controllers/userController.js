@@ -15,7 +15,11 @@ const get_all_users = (req, res) => {
         });
 }
 
-// gets user by ID
+
+//Params:req, res
+//Return: gets user by id
+//Notes: triggered by route /:id/add-item
+//TODO: 
 // triggered by route: GET /users/:id
 //TODO: 
 // 1. Testing 

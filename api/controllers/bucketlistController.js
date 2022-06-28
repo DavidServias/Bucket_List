@@ -4,14 +4,12 @@ const { Item } = require('../models/user');
 const {userRoutes} = require('../routes/userRoutes.js');
 
 
-//add Item
+//Params:req, res
+//Return: adds an item to user's bucket list
+//Notes: triggered by route /:id/add-item
 //TODO: 
 // 1. Testing 
 // 2. Error Handling
-// request example:
-// {
-//        "item_text": "My new bucket list item"
-// }
 const addItem = async (req, res) => {
     try {
         const userId = req.params.id;
@@ -34,6 +32,9 @@ const addItem = async (req, res) => {
 };
 
 
+//Params:req, res
+//Return: updates an item's status on the database
+//Notes: 
 // responds to route: '/:userId/:itemId/item-status' 
 // TODO: respond to errors
 const updateItemStatus = async (req, res) => {
@@ -58,7 +59,10 @@ const updateItemStatus = async (req, res) => {
 };
 
 
-// responds to route: '/:userId/:itemId/item-status' 
+//Params:req, res
+//Return: remove item from user's bucket list
+//Notes: 
+// responds to route: '/:userId/:itemId/remove-item' 
 // TODO: respond to errors
 const removeItem = async (req, res) => {
     try {
@@ -67,7 +71,6 @@ const removeItem = async (req, res) => {
     
         let user = await User.findById(req.params.user_id);
         user.bucket_list.id(itemId).remove();
-       // item.completed = req.body['completed'];
         user.save(function (err) {
             if (err) return handleError(err)
             console.log('Success!');
@@ -80,7 +83,6 @@ const removeItem = async (req, res) => {
         res.status(400).json({ message: error.message })
     }
 };
-
 
 
 module.exports = {

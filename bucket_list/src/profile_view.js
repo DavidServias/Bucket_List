@@ -96,17 +96,27 @@ class Item extends React.Component {
     constructor(props) {
         super(props);
         this.remove = this.remove.bind(this);
+        this.updateStatus = this.updateStatus.bind(this);
     }
     async remove() {
         console.log("remove");
         await api.removeBucketListItem(this.props.user_id, this.props.item_id);
         this.props.updateUser();
     }
+    async updateStatus() {
+        console.log("updateStatus()");
+        await api.updateItemStatus(
+            this.props.user_id, 
+            this.props.item_id, 
+            this.props.completed
+        );
+        this.props.updateUser();
+    }
     handleCheck() {
         console.log("handleCheck");
     }
     render() {
-        let textStyleOveride = this.props.completed ? 
+        let textStyleOveride = this.props.completed===true ? 
             'line-through' : ''; 
         // if (this.props.completed) {
         //     textDecoration = "line-through"
@@ -121,8 +131,8 @@ class Item extends React.Component {
                         sx={{textDecoration:textStyleOveride}} />
                 </ListItemButton>
                 <CheckBox {...label} 
-                    checked={this.props.complete}
-                    onChange={this.handleCheck}/>
+                    checked={this.props.completed}
+                    onChange={this.updateStatus}/>
                 <CheckBox {...label} 
                     checked={this.props.complete}
                     icon={<DeleteIcon />}

@@ -1,4 +1,3 @@
-const { getUserById } = require('../../bucket_list/src/api_requests');
 const { User } = require('../models/user');
 const { Item } = require('../models/user');
 const {userRoutes} = require('../routes/userRoutes.js');

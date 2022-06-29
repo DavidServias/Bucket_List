@@ -3,76 +3,51 @@ import React from 'react';
 import './css/App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ProfileTopRow from './profile_view';
-//import fakeUser from './fake_data';
-//const {getUserById} = require("./api_requests");
+import api from './apiCalls';
 
 
-
-// const callRestApi = async () => {
-//   let response = await getUserById("62b62c2b14d8eed1db9ea1a8");
-//   const jsonResponse = await response.json();
-//   console.log(jsonResponse);
-// };
-
-// callRestApi();
-
-// let result = fetch("http://localhost:8080/users/62b62c2b14d8eed1db9ea1a8", {
-//     method: 'GET',
-//     headers: {
-//         'Content-Type':
-//             'application/json;charset=utf-8'
-//     }
-// });
-
-// result.then(result=>console.log(result));
-
-class App extends React.Component {
-    
-  //user.then((user) => { console.log(user);});
+class App extends React.Component {    
   constructor(props) {
     super(props);
   
     //Initializing the state 
     this.state ={ user: null } ;
+    this.updateUser = this.updateUser.bind(this);
   }
   componentDidMount() {
-    fetch('http://localhost:8080/users/62ba2de07b2ab7715a9ba5ca')
-    .then(response => response.json())
-    .then(data => this.setState({user: data}));
-    
-
-
-    
-    
-    // let res = 
-    //   await fetch("http://localhost:8080/users/62b62c2b14d8eed1db9ea1a8",
-        // { method: 'GET',
-        //   headers: {'Content-Type':'application/json;charset=utf-8'},
-        // }
-//    );
-  //  console.log(res);
-    //const jsonResponse = await response.json();
-    //this.setState({user: response}); 
-  
+    this.updateUser();
+    // const userId = "62ba2de07b2ab7715a9ba5ca";
+    // const userData = await api.getUserData(userId);
+    // this.setState({user: userData});
     
   }
+  async updateUser() {
+    console.log("updateUser()");
+    const userId = "62ba2de07b2ab7715a9ba5ca";
+    const userData = await api.getUserData(userId);
+    this.setState({user: userData});
+  }
   render() {
-    //let user = fakeUser;
-    //let user = this.state.user;
+   let user = this.state.user;
    console.log(this.state.user);
     return (
       this.state.user===null  ?
         <h1>Loading</h1>: 
-        // <h1>response received</h1>
         <div className="App">
-          <ProfileTopRow user ={this.state.user}/>
+          <ProfileTopRow 
+            //user ={this.state.user}
+            profileName = {this.state.user['profile_name']}
+            status = {this.state.user['status']}
+            bucketListData ={this.state.user['bucket_list']} 
+            friendsListData = {this.state.user['friends_list']}
+            userId = {this.state.user['_id']}
+            updateUser = {this.updateUser}
+            />
         </div>
     );
   }
   
 }
-
-
 
 
 export default App;

@@ -1,4 +1,3 @@
-//import logo from './logo.svg';
 import React from 'react';
 import './css/App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -15,15 +14,11 @@ class App extends React.Component {
     this.updateUser = this.updateUser.bind(this);
   }
   componentDidMount() {
-    this.updateUser();
-    // const userId = "62ba2de07b2ab7715a9ba5ca";
-    // const userData = await api.getUserData(userId);
-    // this.setState({user: userData});
-    
+    this.updateUser();    
   }
   async updateUser() {
     console.log("updateUser()");
-    const userId = "62ba2de07b2ab7715a9ba5ca";
+    const userId = "62bd0a4fe89b669738f21dae";
     const userData = await api.getUserData(userId);
     this.setState({user: userData});
   }
@@ -35,7 +30,6 @@ class App extends React.Component {
         <h1>Loading</h1>: 
         <div className="App">
           <ProfileTopRow 
-            //user ={this.state.user}
             profileName = {this.state.user['profile_name']}
             status = {this.state.user['status']}
             bucketListData ={this.state.user['bucket_list']} 

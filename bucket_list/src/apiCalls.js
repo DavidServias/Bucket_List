@@ -19,6 +19,21 @@ async function removeBucketListItem(userId, itemId) {
         .then(data => console.log(data));
 }
 
+async function addBucketListItem(userId, newItem) {
+    console.log("addBucketListItem()");
+    let url = "http://localhost:8080/bucket_list/";
+    url += userId + "/add-item";
+    let reqBody = JSON.stringify({"text": newItem});
+    let options = {
+        method: 'PATCH',
+        headers: {'Content-Type':'application/json;charset=utf-8'},
+        body: reqBody
+    };
+    await fetch(url, options)
+        .then(response => response.json())
+        .then(data => console.log(data));
+}
+
 async function updateItemStatus(userId, itemId, completed) {
     console.log("updateItemStatus()");
     let url = "http://localhost:8080/bucket_list/";
@@ -39,10 +54,10 @@ async function updateItemStatus(userId, itemId, completed) {
 }
 
 
-
 export default {
     getUserData,
     removeBucketListItem,
-    updateItemStatus
+    updateItemStatus,
+    addBucketListItem
 
 }

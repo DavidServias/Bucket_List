@@ -10,7 +10,16 @@ import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CheckBox from '@mui/material/Checkbox';
+import IconButton from '@mui/material/IconButton';
+import TextField from '@mui/material/TextField';
+import AddIcon from '@mui/icons-material/Add';
+import InputAdornment from '@mui/material/InputAdornment';
 import api from './apiCalls';
+
+
+import FormControl, { useFormControl } from '@mui/material/FormControl';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import FormHelperText from '@mui/material/FormHelperText';
 
 
 class ProfileTopRow extends React.Component {
@@ -46,24 +55,26 @@ class ProfileTopRow extends React.Component {
 export class BucketList extends React.Component {
     constructor(props) {
         super(props);
-        //this.state = {list: this.props.user.bucket_list};
+        this.handleChange = this.handleChange.bind(this);
+        this.addNewItem = this.addNewItem.bind(this);
+        this.state = {newItem: ""};
+        this.addItemPlaceholderText = "Add an Item to Your Bucket List";
     }
-    removeBucketListItem(userId, itemId) {
-        let url = "http://localhost:8080/bucket_list/";
-        url += userId + "/" + itemId + "/remove-item";
-        let options = {
-            method: 'DELETE',
-            headers: {'Content-Type':'application/json;charset=utf-8'},
-        };
-        fetch(url, options)
-            .then(response => response.json())
-            .then(data => this.setState({user: data}));
+    handleChange(event) {
+        this.setState({newItem: event.target.value});
     }
-    updateItemStatus(userId, itemId) {
-        console.log("userId: " + userId);
-        console.log("itemId: " + itemId);
+    async addNewItem(){
+        console.log("addNewItem()")
+        await api.addBucketListItem(this.props.userId, this.state.newItem);
+        this.setState({newItem: ""});
+        this.props.updateUser();
+
+    }
+    onSubmit() {
+        console.log("onSubmit()");
     }
     render(){
+        const ariaLabel = { 'aria-label': 'description' };
         return (
             <Box sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
             <Divider />
@@ -73,8 +84,7 @@ export class BucketList extends React.Component {
                     let userId = this.props.userId;
                     return (
                         <Item item_text={item['text']}
-                              completed={item['completed']}
-                              //remove={removeItem} 
+                              completed={item['completed']} 
                               user_id={this.props.userId}
                               item_id={item['_id']}
                               updateUser = {this.props.updateUser}
@@ -85,6 +95,31 @@ export class BucketList extends React.Component {
                 // "this".
                 }, this)}
                 </List>
+                {/* <input type="text" 
+                        value={this.state.newItem} 
+                        placeholder={this.addItemPlaceholderText} 
+                        onChange={this.handleChange} /> */}
+                <TextField
+
+                    fullWidth 
+                    margin="none"
+                    label={this.addItemPlaceholderText}
+                    // id="fullWidth"
+                    value={this.state.newItem} 
+                    placeholder={this.addItemPlaceholderText} 
+                    InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <IconButton className="AddBtn" onClick={this.addNewItem}>
+					            <AddIcon />
+				            </IconButton>
+                          </InputAdornment>
+                        ),
+                      }}
+                      
+                    onChange={this.handleChange}
+                />
+              
             </nav>
             </Box>
         );
@@ -118,9 +153,6 @@ class Item extends React.Component {
     render() {
         let textStyleOveride = this.props.completed===true ? 
             'line-through' : ''; 
-        // if (this.props.completed) {
-        //     textDecoration = "line-through"
-        // }
         const label = { inputProps: { "aria-label": "Checkbox demo" } };
         return (
             <ListItem disablePadding>
@@ -138,8 +170,7 @@ class Item extends React.Component {
                     icon={<DeleteIcon />}
                     onChange={this.remove}
                     checkedIcon={<DeleteIcon />}
-                    />
-               
+                    /> 
             </ListItem>
            
         );

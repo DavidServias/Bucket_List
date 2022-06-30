@@ -15,9 +15,14 @@ const addItem = async (req, res) => {
         let newItemInfo = req.body;
         newItemInfo['completed'] = "false";
         let newItem = Item(newItemInfo);
-
         const updatedData = {
-            $push: { "bucket_list": newItem }
+            $push: {
+                "bucket_list": {
+                   $each: [newItem],
+                   $position: 0
+                }
+            }
+
         };
         console.log(updatedData);
         const options = {new: true};

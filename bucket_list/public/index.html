@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <!-- <link rel="icon" href="%PUBLIC_URL%/favicon.ico" /> -->
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
     <meta
@@ -11,6 +11,10 @@
     />
     <!--the next line added as instructed by the material UI docs-->
     <meta name="viewport" content="initial-scale=1, width=device-width" />
+
+    <!-- the client ID needs to be hidden-->
+    <!-- <meta name="google-signin-client_id" content= "845379710734-vv3tm1qqp004uv7kb6f75l7rcrkb3ese.apps.googleusercontent.com"/> -->
+    
 
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <!--
@@ -27,12 +31,30 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>React App</title>
+    
+    <title>Bucket List</title>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
+    <!-- <div id="g_id_onload"
+        data-client_id="845379710734-vv3tm1qqp004uv7kb6f75l7rcrkb3ese.apps.googleusercontent.com"
+        data-context="signin"
+        data-ux_mode="redirect"
+        data-login_uri="http://localhost:8080/login/handler"
+        data-auto_prompt="false">
+    </div>
+
+    <div class="g_id_signin"
+        data-type="standard"
+        data-shape="rectangular"
+        data-theme="outline"
+        data-text="signin_with"
+        data-size="large"
+        data-logo_alignment="left">
+    </div> -->
     <div id="root"></div>
-    <!--
+        <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
 
@@ -42,5 +64,9 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+    
+    
+   
+    <!-- <script src="login_functions.js"  async defer></script>    -->
   </body>
 </html>

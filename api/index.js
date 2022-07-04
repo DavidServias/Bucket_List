@@ -5,14 +5,16 @@ const app = express();
 const PORT = 8080;
 const userRoutes = require('./routes/userRoutes');
 const bucketListRoutes = require('./routes/bucketlist_routes');
+const loginRoutes = require('./routes/login_routes');
 const bodyParser = require("body-parser");
-const passport = require('passport');
+// const passport = require('passport');
 require('dotenv').config();
+console.log(process.env); // remove this after you've confirmed it working
 
-console.log(process.env.DB_URI);
+console.log("db uri test:" + process.env.REACT_APP_DB_URI);
 
 // connect to db
-mongoose.connect(process.env.DB_URI, {useNewUrlParser: true, useUnifiedTopology: true})
+mongoose.connect(process.env.REACT_APP_DB_URI, {useNewUrlParser: true, useUnifiedTopology: true})
     .then(function(result) {
         console.log('Database is connected');
     })
@@ -35,12 +37,14 @@ app.get('/', (req, res) => res.send('BucketList is up and running!'));
 * Parses the text as JSON and exposes the resulting object on req.body.
 */
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded());
 
 // project routes
+app.use('/login', loginRoutes);
 app.use('/users', userRoutes);
 app.use('/bucket_list', bucketListRoutes);
 
 
 
-app.use (passport.initialize())
-app.use (passport.session())
+// app.use (passport.initialize())
+// app.use (passport.session())

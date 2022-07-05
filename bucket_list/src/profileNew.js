@@ -10,7 +10,7 @@ export class ProfileNew extends React.Component {
 <div className="container">
     <div className="profile">
         <ProfileHeader  
-            handleSignOut = {this.props.handleSignOut}
+            setUserToNull = {this.props.setUserToNull}
         />
         
         <div className="profile-container">
@@ -88,7 +88,7 @@ class ProfileHeader extends React.Component {
                             <div className="nav-value">2,592</div>
                         </a>
                     </li>
-                    <li><button onClick={this.props.handleSignOut}>Sign Out</button></li>
+                    <li><button onClick={this.props.setUserToNull}>Sign Out</button></li>
                 </ul>
             </div>
         </div>

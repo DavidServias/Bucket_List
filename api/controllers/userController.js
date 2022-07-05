@@ -49,9 +49,6 @@ const get_user_by_id = (req, res) => {
 // 2. Error Handling
 const create_user = (req, res) => {
     const user = new User(req.body);
-    if(!user.status){
-        user.status = "";
-    }
     user.save()
         .then(result => {
             res.status(201).send(result);
@@ -135,7 +132,7 @@ const get_user_by_identifier = (req, res) => {
                 console.log(err);
             } else {
                 if (result === null) {
-                    res.send({"message":"no match"});
+                    res.send({"message":"no profile matching that identifier"});
                 } else {
                     res.send(result);
                 };

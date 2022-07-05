@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "./css/login.css";
-import "./css/background.css";
+import "./css/login.css";
+import AnimatedBackground from './animated_background';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 require('dotenv').config();
@@ -13,14 +14,15 @@ export default class LoginScreen extends Component {
             username: "",
             password: ""
           };    
-        this.handleCallbackResponse = this.handleCallbackResponse.bind(this);
+        this.handleGoogleResponse = this.handleGoogleResponse.bind(this);
+        this.generateIdentifier = this.generateIdentifier.bind(this);
     }
 
     async componentDidMount() {
         /* global google*/
        await google.accounts.id.initialize({
          client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID,
-         callback: this.handleCallbackResponse
+         callback: this.handleGoogleResponse
        });
    
        await google.accounts.id.renderButton(
@@ -32,23 +34,53 @@ export default class LoginScreen extends Component {
        );
      }
 
-    handleCallbackResponse(response) {
-        console.log("handleCallbackResponse()");
-        var userObject = jwt.decode(response.credential);
-        console.log(userObject);
-        this.props.updateUser(userObject['sub']);
+    async handleGoogleResponse(response) {
+        console.log("handleGoogleResponse()");
+        // decode google response and save to userGoogleData
+        var googleData = jwt.decode(response.credential);
+        console.log(googleData);
+        // check to see if google user already has a profile:
+        let profileData = await this.props.lookUpUser(googleData['sub']);
+        console.log(profileData);
+        // if googleUser is does not have a BucketList profile,
+        // show create account form.
+        if (profileData.message === "no profile matching that identifier") {
+            console.log("no profile data");
+            let newUserData = {
+                "google_verified": true,//maybe backend doesn't need this?
+                "identifier" : googleData['sub']
+            };
+            this.props.showCreateProfile(newUserData);
+        // If google user has a profile already, set user in state to
+        // this user, and show profile view.
+        } else {
+            console.log("profile data found");
+            this.props.showProfileView(profileData);
+
+        }
     }
  
-    handleChange = e => {
+    handleChange(e) {
         this.setState({ [e.currentTarget.id]: e.currentTarget.value });
     };
+
+    generateIdentifier() {
+        var chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        var identifierLength = 12;
+        var identifier = "";
+        for (var i = 0; i <= identifierLength; i++) {
+          var randomNumber = Math.floor(Math.random() * chars.length);
+          identifier += chars.substring(randomNumber, randomNumber +1);
+         }
+    
+        return identifier;
+    }
+    
 
   render() {
     return (
         <div >
-            <div className="bg"></div>
-            <div className="bg bg2"></div>
-            <div className="bg bg3"></div>
+           <AnimatedBackground/>
 
             <div className="login-buttons">
                 <form className="form">

@@ -1,4 +1,20 @@
 
+
+async function createUser(data) {
+    let url = 'http://localhost:8080/users/';
+    let reqBody = data;
+    let options = {
+        method: 'POST',
+        headers: {'Content-Type':'application/json;charset=utf-8'},
+        body: reqBody
+    };
+    var response = await fetch(url,options);
+    response = response.json();   
+    
+    return response;
+
+};
+
 function getUserData(userId) {
     let url = 'http://localhost:8080/users/' + userId;
     const data = fetch(url)
@@ -14,10 +30,10 @@ async function getUserByIdentifier(identifier) {
         headers: {'Content-Type':'application/json;charset=utf-8'},
         body: reqBody
     };
-    var data = await fetch(url,options);
-    data = data.json();   
+    var response = await fetch(url,options);
+    response = response.json();   
     
-    return data;
+    return response;
 }
 
 async function removeBucketListItem(userId, itemId) {
@@ -69,6 +85,7 @@ async function updateItemStatus(userId, itemId, completed) {
 
 
 export default {
+    createUser,
     getUserData,
     getUserByIdentifier,
     removeBucketListItem,

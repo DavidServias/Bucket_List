@@ -126,12 +126,35 @@ const delete_user = (req, res) => {
         });
 }
 
+
+const get_user_by_identifier = (req, res) => {
+    const identifier = req.body.identifier;
+    User.findOne({identifier: identifier},
+        function(err, result){
+            if (err) {
+                console.log(err);
+            } else {
+                if (result === null) {
+                    res.send({"message":"no match"});
+                } else {
+                    res.send(result);
+                };
+                    
+               
+            }
+        }
+    );
+            
+};
+
+
 module.exports = {
     get_all_users,
     get_user_by_id,
     create_user,
     delete_user,
     addLikedItem,
-    updateStatus
+    updateStatus,
+    get_user_by_identifier
 }
 

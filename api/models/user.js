@@ -12,7 +12,8 @@ const UserSchema = new Schema({
     bucket_list: { type: [ItemSchema], required: false },
     friends_list: { type: [String], required: false},
     liked_items: { type: [String], required: false },
-    status: { type: String, required: false}
+    status: { type: String, required: false},
+    identifier: { type: String, required: false}
   }, {
     timestamps: true,
   });

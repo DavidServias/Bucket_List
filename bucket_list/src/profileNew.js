@@ -9,16 +9,16 @@ export class ProfileNew extends React.Component {
         return (
 <div className="container">
     <div className="profile">
-        <ProfileHeader />
+        <ProfileHeader  
+            handleSignOut = {this.props.handleSignOut}
+        />
         
         <div className="profile-container">
             <ProfileSiderBar 
                 profileName = {this.props.profileName}
                 status = {this.props.status}
-
             />
             
-
             <div className="profile-content">
                 <div className="row">
                     <div className="col-xl-12">
@@ -88,6 +88,7 @@ class ProfileHeader extends React.Component {
                             <div className="nav-value">2,592</div>
                         </a>
                     </li>
+                    <li><button onClick={this.props.handleSignOut}>Sign Out</button></li>
                 </ul>
             </div>
         </div>

@@ -10,6 +10,7 @@ router.get('/', userController.get_all_users);
 router.get('/:id', userController.get_user_by_id);
 router.post('/', userController.create_user);
 router.delete('/:id', userController.delete_user);
+router.post('/login', userController.get_user_by_identifier);
 
 router.patch('/:id/update_status', userController.updateStatus);
 

@@ -6,6 +6,20 @@ function getUserData(userId) {
     return data;
 }; 
 
+async function getUserByIdentifier(identifier) {
+    let url = 'http://localhost:8080/users/login';
+    let reqBody = JSON.stringify({"identifier": identifier});
+    let options = {
+        method: 'POST',
+        headers: {'Content-Type':'application/json;charset=utf-8'},
+        body: reqBody
+    };
+    var data = await fetch(url,options);
+    data = data.json();   
+    
+    return data;
+}
+
 async function removeBucketListItem(userId, itemId) {
     console.log("removeBucketListItem()");
     let url = "http://localhost:8080/bucket_list/";
@@ -56,6 +70,7 @@ async function updateItemStatus(userId, itemId, completed) {
 
 export default {
     getUserData,
+    getUserByIdentifier,
     removeBucketListItem,
     updateItemStatus,
     addBucketListItem

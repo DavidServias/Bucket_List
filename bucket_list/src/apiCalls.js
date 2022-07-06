@@ -36,10 +36,10 @@ async function getUserByIdentifier(identifier) {
     return response;
 }
 
-async function removeBucketListItem(userId, itemId) {
+async function removeBucketListItem(userIdentifier, itemId) {
     console.log("removeBucketListItem()");
     let url = "http://localhost:8080/bucket_list/";
-    url += userId + "/" + itemId + "/remove-item";
+    url += userIdentifier + "/" + itemId + "/remove-item";
     let options = {
         method: 'DELETE',
         headers: {'Content-Type':'application/json;charset=utf-8'},
@@ -49,25 +49,29 @@ async function removeBucketListItem(userId, itemId) {
         .then(data => console.log(data));
 }
 
-async function addBucketListItem(userId, newItem) {
+async function addBucketListItem(userIdentifier, newItem) {
     console.log("addBucketListItem()");
     let url = "http://localhost:8080/bucket_list/";
-    url += userId + "/add-item";
+    url += userIdentifier + "/add-item";
     let reqBody = JSON.stringify({"text": newItem});
+    console.log("test1");
     let options = {
         method: 'PATCH',
         headers: {'Content-Type':'application/json;charset=utf-8'},
         body: reqBody
     };
-    await fetch(url, options)
-        .then(response => response.json())
-        .then(data => console.log(data));
+    var response= await fetch(url, options);
+    console.log(response);
+    var data = await response.json();
+    
+    console.log(data);
+    
 }
 
-async function updateItemStatus(userId, itemId, completed) {
+async function updateItemStatus(userIdentifier, itemId, completed) {
     console.log("updateItemStatus()");
     let url = "http://localhost:8080/bucket_list/";
-    url += userId + "/" + itemId + "/item-status";
+    url += userIdentifier + "/" + itemId + "/item-status";
     console.log(url);
     let status = completed ? false:true ;
     const reqBody = JSON.stringify({"completed": status});

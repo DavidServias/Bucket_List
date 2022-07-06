@@ -13,9 +13,11 @@ export default class LoginScreen extends Component {
         this.state = {
             username: "",
             password: ""
-          };    
+          }; 
+        this.handleCreateAccount = this.handleCreateAccount.bind(this);    
         this.handleGoogleResponse = this.handleGoogleResponse.bind(this);
         this.generateIdentifier = this.generateIdentifier.bind(this);
+        this.handleChange = this.handleChange.bind(this);
     }
 
     async componentDidMount() {
@@ -34,14 +36,22 @@ export default class LoginScreen extends Component {
        );
      }
 
+     handleCreateAccount() {
+        let newUserData = {
+            "google_verified": false,//maybe backend doesn't need this?
+            "identifier" : this.generateIdentifier()
+        };
+        this.props.showCreateProfile(newUserData);
+     }
+
     async handleGoogleResponse(response) {
         console.log("handleGoogleResponse()");
         // decode google response and save to userGoogleData
         var googleData = jwt.decode(response.credential);
-        console.log(googleData);
+        console.log("google data:" + googleData);
         // check to see if google user already has a profile:
         let profileData = await this.props.lookUpUser(googleData['sub']);
-        console.log(profileData);
+        console.log("profile data: " + profileData);
         // if googleUser is does not have a BucketList profile,
         // show create account form.
         if (profileData.message === "no profile matching that identifier") {
@@ -85,24 +95,26 @@ export default class LoginScreen extends Component {
             <div className="login-buttons">
                 <form className="form">
                     <TextField
+                        fullWidth
                         className="textField"
                         label="Username"
                         id="username"
                         placeholder="username"
-                        formControlProps={{
-                            fullWidth: true
-                        }}
-                        handleChange={this.handleChange}
+                        // formControlProps={{
+                        //     fullWidth: true
+                        // }}
+                        onChange={this.handleChange}
                         type="text"
                     />
                     <TextField
+                        fullWidth
                         className="textField"
                         label="Password"
                         id="password"
-                        formControlProps={{
-                            fullWidth: true
-                        }}
-                        handleChange={this.handleChange}
+                        // formControlProps={{
+                        //     fullWidth: true
+                        // }}
+                        onChange={this.handleChange}
                         type="password"
                     />
 

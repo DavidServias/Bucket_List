@@ -15,24 +15,28 @@ export class Item extends React.Component {
         super(props);
         this.remove = this.remove.bind(this);
         this.updateStatus = this.updateStatus.bind(this);
-    }
+    };
+
     async remove() {
         console.log("remove");
-        await api.removeBucketListItem(this.props.user_id, this.props.item_id);
-        this.props.updateUser();
-    }
+        await api.removeBucketListItem(this.props.userIdentifier, this.props.item_id);
+        this.props.refreshUserData(this.props.userIdentifier);
+    };
+
     async updateStatus() {
         console.log("updateStatus()");
         await api.updateItemStatus(
-            this.props.user_id, 
+            this.props.userIdentifier, 
             this.props.item_id, 
             this.props.completed
         );
-        this.props.updateUser();
-    }
+        this.props.refreshUserData(this.props.userIdentifier);
+    };
+
     handleCheck() {
         console.log("handleCheck");
-    }
+    };
+
     render() {
         let textStyleOveride = this.props.completed===true ? 
             'line-through' : ''; 
@@ -57,7 +61,7 @@ export class Item extends React.Component {
             </ListItem>
            
         );
-    }
+    };
 }
 
 

@@ -25,16 +25,17 @@ export class BucketList extends React.Component {
     }
     async addNewItem(){
         console.log("addNewItem()")
-        await api.addBucketListItem(this.props.userId, this.state.newItem);
+        await api.addBucketListItem(this.props.userIdentifier, this.state.newItem);
         this.setState({newItem: ""});
-        this.props.updateUser();
+        this.props.refreshUserData(this.props.userIdentifier);
 
     }
     onSubmit() {
         console.log("onSubmit()");
     }
     render(){
-        const ariaLabel = { 'aria-label': 'description' };
+        console.log("bucket_list_props: "+this.props);
+        //const ariaLabel = { 'aria-label': 'description' };
         return (
             <Box sx={{ width: '100%', /*maxWidth: 360, */bgcolor: 'background.paper' }}>
             <div className="bucket-list-container">
@@ -47,13 +48,14 @@ export class BucketList extends React.Component {
             <nav aria-label="secondary mailbox folders">
                 <List>
                 {this.props.bucketListData.map(function (item) {
-                    let userId = this.props.userId;
+                    //let userId = this.props.userId;
                     return (
                         <Item item_text={item['text']}
                               completed={item['completed']} 
-                              user_id={this.props.userId}
+                              userIdentifier={this.props.userIdentifier}
                               item_id={item['_id']}
-                              updateUser = {this.props.updateUser}
+                              key = {item['_id']}
+                              refreshUserData= {this.props.refreshUserData}
                               />
                     );
                 // reminder for me: the "this" argument has to be included

@@ -1,13 +1,11 @@
 import React from 'react';
 import './css/App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import ProfileNew from './profileNew';
+import ProfileView from './profile_view';
 import api from './apiCalls';
 import LoginScreen from './login';
 import CreateProfileForm from './createProfileForm';
 require('dotenv').config();
-const jwt  = require('jsonwebtoken');
-
 
 
 class App extends React.Component  {    
@@ -20,6 +18,7 @@ class App extends React.Component  {
       showCreateAccount: false,
     };
     this.lookUpUser = this.lookUpUser.bind(this);
+    this.refreshUserData = this.refreshUserData.bind(this);
     this.setUserToNull = this.setUserToNull.bind(this);
     this.showCreateProfile = this.showCreateProfile.bind(this);
     this.showLoginPage = this.showLoginPage.bind(this);
@@ -55,10 +54,16 @@ class App extends React.Component  {
   // Should maybe move this to Login
   async lookUpUser(identifier) {
     // const userId = "62bd0a4fe89b669738f21dae";
-    let TEMP = "1234";
+    //let TEMP = "1234";
     let dataFromUser = await api.getUserByIdentifier(identifier);
     console.log("data:" + dataFromUser);
     return dataFromUser;
+  }
+
+  async refreshUserData(identifier) {
+    console.log("refreshUserData()");
+    let latestUserData = await api.getUserByIdentifier(identifier);
+    this.showProfileView(latestUserData);
   }
 
   setUserToNull() {
@@ -68,39 +73,40 @@ class App extends React.Component  {
   }
 
   render() {
-      return (
-        <div className="App">
-          
-          { (this.state.showLogin) ?
-            (<LoginScreen 
-              lookUpUser = {this.lookUpUser}
-              showProfileView = {this.showProfileView}
-              showCreateProfile = {this.showCreateProfile}
-            />) 
-            : null}
+    return (
+      <div className="App">
+        
+        { (this.state.showLogin) ?
+          (<LoginScreen 
+            lookUpUser = {this.lookUpUser}
+            showProfileView = {this.showProfileView}
+            showCreateProfile = {this.showCreateProfile}
+          />) 
+          : null}
 
-          {(this.state.showProfile) ?
-            <ProfileNew 
-              profileName = {this.state.user['profile_name']}
-              status = {this.state.user['status']}
-              bucketListData ={this.state.user['bucket_list']} 
-              friendsListData = {this.state.user['friends_list']}
-              userId = {this.state.user['_id']}
-              lookUpUser = {this.lookUpUser}
-              setUserToNull = {this.setUserToNull}
-            /> 
-            : null
-          }
+        {(this.state.showProfile) ?
+          <ProfileView
+            profileName = {this.state.user['profile_name']}
+            status = {this.state.user['status']}
+            bucketListData ={this.state.user['bucket_list']} 
+            friendsListData = {this.state.user['friends_list']}
+            userIdentifier = {this.state.user['identifier']}
+            lookUpUser = {this.lookUpUser}
+            refreshUserData = {this.refreshUserData}
+            setUserToNull = {this.setUserToNull}
+          /> 
+          : null
+        }
 
-          {(this.state.showCreateAccount) ? 
-            <CreateProfileForm
-              newUserData={this.state.user}
-              showProfileView={this.showProfileView}
-            /> : null
-          }
+        {(this.state.showCreateAccount) ? 
+          <CreateProfileForm
+            newUserData={this.state.user}
+            showProfileView={this.showProfileView}
+          /> : null
+        }
 
-        </div>    
-      );
+      </div>    
+    );
   }
 }
 

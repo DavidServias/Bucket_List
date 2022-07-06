@@ -11,17 +11,17 @@ const {userRoutes} = require('../routes/userRoutes.js');
 // 2. Error Handling
 const addItem = async (req, res) => {
     try {
-        const userId = req.params.id;
+        const userIdentifier = req.params.user_identifier;
+        let filter = {"identifier": userIdentifier};
         let newItemInfo = req.body;
         newItemInfo['completed'] = "false";
         let newItem = Item(newItemInfo);
-        const updatedData = {
+        const update = {
             $push: {"bucket_list": [newItem]}
         };
-        console.log(updatedData);
-        const options = {new: true};
-        const result = await User.findByIdAndUpdate(
-        userId, updatedData, options);
+        const options = {new: true}; 
+        const result = await User.findOneAndUpdate(
+            filter, update, options);
         res.send(result)
     }
     catch (error) {
@@ -37,10 +37,10 @@ const addItem = async (req, res) => {
 // TODO: respond to errors
 const updateItemStatus = async (req, res) => {
     try {
-        const userId = req.params.user_id;
+        const userIdentifier = req.params.user_identifier;
         const itemId = req.params.item_id;
     
-        let user = await User.findById(req.params.user_id);
+        let user = await User.findOne({"identifier": userIdentifier});
         let item = user.bucket_list.id(itemId);
         item.completed = req.body['completed'];
         user.save(function (err) {
@@ -64,10 +64,9 @@ const updateItemStatus = async (req, res) => {
 // TODO: respond to errors
 const removeItem = async (req, res) => {
     try {
-        const userId = req.params.user_id;
+        const userIdentifier = req.params.user_identifier;
         const itemId = req.params.item_id;
-    
-        let user = await User.findById(req.params.user_id);
+        let user = await User.findOne({"identifier": userIdentifier});
         user.bucket_list.id(itemId).remove();
         user.save(function (err) {
             if (err) return handleError(err)

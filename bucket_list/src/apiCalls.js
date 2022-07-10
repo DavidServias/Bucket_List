@@ -91,14 +91,16 @@ async function updateItemStatus(userIdentifier, itemId, completed) {
 
 // router.get('/:identifier/find_friends', userController.findFriends);
 async function findFriends(identifier) {
-    let url = 'http://localhost:8080/' + identifier + 'find_friends';
+    console.log("findFriends()");
+    let url = 'http://localhost:8080/users/' + identifier + '/find_friends';
     let options = {
         method: 'GET',
         headers: {'Content-Type':'application/json;charset=utf-8'}
     };
+    // console.log(url);
+    // console.log(options);
     var response = await fetch(url,options);
     response = response.json();   
-    
     return response;
 }
 

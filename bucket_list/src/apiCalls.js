@@ -88,12 +88,31 @@ async function updateItemStatus(userIdentifier, itemId, completed) {
 }
 
 
+
+// router.get('/:identifier/find_friends', userController.findFriends);
+async function findFriends(identifier) {
+    let url = 'http://localhost:8080/' + identifier + 'find_friends';
+    let options = {
+        method: 'GET',
+        headers: {'Content-Type':'application/json;charset=utf-8'}
+    };
+    var response = await fetch(url,options);
+    response = response.json();   
+    
+    return response;
+}
+
+
+
+
+
 export default {
     createUser,
     getUserData,
     getUserByIdentifier,
     removeBucketListItem,
     updateItemStatus,
-    addBucketListItem
+    addBucketListItem,
+    findFriends
 
 }

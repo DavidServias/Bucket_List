@@ -1,7 +1,7 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/profile.css';
-import Box from '@mui/material/Box';
+//import Box from '@mui/material/Box';
 import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
@@ -34,11 +34,12 @@ export class BucketList extends React.Component {
         console.log("onSubmit()");
     }
     render(){
-        console.log("bucket_list_props: "+this.props);
+        //console.log("bucket_list_props: "+this.props.bucketListData);
+        console.log("bucket_list_props: "+this.props.profileName);
         //const ariaLabel = { 'aria-label': 'description' };
         return (
-            <Box sx={{ width: '100%', /*maxWidth: 360, */bgcolor: 'background.paper' }}>
-            <div className="bucket-list-container">
+            // <Box sx={{ width: '100%', /*maxWidth: 360, */bgcolor: 'background.paper' }}>
+            <div id="bucket-list-container">
             <h1>{this.props.profileName}'s Bucket List</h1>
             <div className="font-weight-600 mb-3 text-muted mt-n1">
                 Here is what {this.props.profileName} hopes to experience during this life: 
@@ -63,10 +64,7 @@ export class BucketList extends React.Component {
                 // "this".
                 }, this)}
                 </List>
-                {/* <input type="text" 
-                        value={this.state.newItem} 
-                        placeholder={this.addItemPlaceholderText} 
-                        onChange={this.handleChange} /> */}
+              
                 <TextField
 
                     fullWidth 
@@ -90,7 +88,7 @@ export class BucketList extends React.Component {
               
             </nav>
             </div>
-            </Box>
+            // </Box>
         );
     }
 }

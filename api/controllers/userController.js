@@ -1,4 +1,4 @@
-const { User } = require('../models/user');
+const { User, AccountSummary } = require('../models/user');
 
 // gets all users
 // triggered by route: GET /users/
@@ -41,6 +41,73 @@ const get_user_by_id = (req, res) => {
             res.status(400).send(err);
         });
 }
+
+
+const addFriend = async (req, res) => {
+    console.log("hello?");
+    try {
+       
+        const userIdentifier = req.params.identifier;
+        let filter = {"identifier": userIdentifier};
+        let newFriendData = req.body;
+        let newFriend = AccountSummary(newFriendData);
+        const update = {
+            $push: {"friends_list": [newFriend]}
+        };
+        const options = {new: true}; 
+        const result = await User.findOneAndUpdate(
+            filter, update, options);
+        
+        res.send(result)
+    }
+    catch (error) {
+        res.status(400).json({ message: error.message })
+    }
+
+};
+
+
+//router.get('/:identifier/get-friends', userController.getFriends);
+const getFriends = (req, res) => {
+    const identifier = req.params.identifier;
+    User.findOne({identifier: identifier},
+        function(err, result){
+            if (err) {
+                console.log(err);
+            } else {
+                if (result === null) {
+                    res.send({"message":"no profile matching that identifier"});
+                } else {
+                    const followed = result.friends_list;
+                    res.send(followed );
+                };
+
+                    
+               
+            }
+        }
+    );
+};
+
+
+const findFriends = async (req, res) => {
+    const identifier = req.params.identifier;
+    let user = await User.findOne({identifier: identifier});
+    //generate friends list
+    let friends = [identifier];// starts with self, so self is not included in friend
+    // suggestions.
+    let length = user.friends_list.length;
+    for (let i = 0; i < length; i += 1) {
+        let nextFriend = user.friends_list[i].userIdentifier;
+        friends.push(nextFriend);
+    };
+    // find users that are not on the friend list already:
+    let suggestions = await User.find({ "identifier": { $nin: friends} });
+    res.send(suggestions);
+
+};
+
+
 
 // creates new user
 // triggered by route: POST /users/
@@ -148,10 +215,13 @@ const get_user_by_identifier = (req, res) => {
 module.exports = {
     get_all_users,
     get_user_by_id,
+    getFriends,
     create_user,
     delete_user,
     addLikedItem,
     updateStatus,
-    get_user_by_identifier
+    get_user_by_identifier,
+    addFriend,
+    findFriends
 }
 

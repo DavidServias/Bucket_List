@@ -2,6 +2,7 @@ import React from 'react';
 import './css/App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ProfileView from './profile_view';
+//import MyProfile from './temp-profile.js';
 import api from './apiCalls';
 import LoginScreen from './login';
 import CreateProfileForm from './createProfileForm';
@@ -85,7 +86,7 @@ class App extends React.Component  {
           : null}
 
         {(this.state.showProfile) ?
-          <ProfileView
+          <ProfileView 
             profileName = {this.state.user['profile_name']}
             status = {this.state.user['status']}
             bucketListData ={this.state.user['bucket_list']} 

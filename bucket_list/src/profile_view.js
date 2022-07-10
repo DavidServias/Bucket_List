@@ -1,127 +1,88 @@
 import React from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
+//import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/profile_view.css';
 import BucketList from './bucket_list';
+import FollowedList from './followed_list';
+import AboutMe from './about_me';
 
-export class ProfileView extends React.Component {
+// import PropTypes from 'prop-types';
+// import Tabs from '@mui/material/Tabs';
+// import Tab from '@mui/material/Tab';
+// import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
 
-    render() {
-        console.log("profileView props: " + this.props);
+// import * as React from 'react';
+import { styled } from '@mui/material/styles';
+import Paper from '@mui/material/Paper';
+import Grid from '@mui/material/Grid';
+
+const Item = styled(Paper)(({ theme }) => ({
+  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: 'center',
+  color: theme.palette.text.secondary,
+}));
+
+class ProfileView extends React.Component {
+    constructor(props){
+        super(props);
+    }
+    
+    render(){
+        console.log("profile_view: " + this.props.bucketListData);
         return (
-<div className="container">
-    <div className="profile">
-        <ProfileHeader  
-            setUserToNull = {this.props.setUserToNull}
-        />
-        
-        <div className="profile-container">
-            <ProfileSiderBar 
-                profileName = {this.props.profileName}
-                status = {this.props.status}
-            />
+            <Box  sx={{ height: '500px', }}>
             
-            <div className="profile-content">
-                <div className="row">
-                    <div className="col-xl-12">
-                        <div className="tab-content p-0">
-                            <div className="tab-pane fade active show" id="profile-followers">
-                                <div className="list-group">
-                                    <BucketList 
-                                        userIdentifier = {this.props.userIdentifier}
-                                        bucketListData = {this.props.bucketListData}
-                                        refreshUserData = {this.props.refreshUserData}
-                                        profileName = {this.props.profileName}
-                                    />
-                                    
-                                </div>
-                               
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
+            <Grid container spacing={0}>
+                {/* sidebar */}
+                <Grid item sm={2} xs={12} order={{sm:0, xs: 1}} sx={{height:'500px'}} >
+                <Item sx={{backgroundColor: "blue"}} >Sidebar</Item>
+                </Grid>
+                {/* main panel */}
+                <Grid item sm={10} xs={12} order={{md:1, xs: 0}}>
+                    <Grid container spacing={0} justifyContent="space-between">
+                        {/* header */}
+                        <Grid item xs={12} alignItems="center" >
+                           
+                        </Grid>
+                        <Grid item md={3} xs={12}>
+                            <AboutMe 
+                                status = {this.props.status}
+                            />
+                        </Grid>
+                        <Grid item sm={9} xs={12}>
+                        <BucketList 
+                            userIdentifier = {this.props.userIdentifier}
+                            bucketListData = {this.props.bucketListData}
+                            refreshUserData = {this.props.refreshUserData}
+                            profileName = {this.props.profileName}
+                            test = "test"
+                        />  
+                        </Grid>
+                        <Grid item sm={6} xs={12}>
+                            <Item>David's Deep Thoughts</Item>
+                        </Grid>
+                        <Grid item sm={6} xs={12}>
+                        <FollowedList 
+                            userIdentifier = {this.props.userIdentifier}
+                            friendsListData = {this.props.friendsListData}
+                            refreshUserData = {this.props.refreshUserData}
+                            profileName = {this.props.profileName}
+                            test = "test"
+                        />  
+                        </Grid>
+                    </Grid>
+                
+                </Grid>
+                
+            </Grid> 
+            
+        
+            </Box>
         );
-        }
-}
-
-
-class ProfileHeader extends React.Component {
-    render() {
-        return (
-            <div className="profile-header">
-            <div className="profile-header-cover"></div>
-            <div className="profile-header-content">
-                <div className="profile-header-img">
-                    <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="" />
-                </div>
-                <ul className="profile-header-tab nav nav-tabs nav-tabs-v2">
-                    <li className="nav-item">
-                        <a href="#profile-post" className="nav-link" data-toggle="tab">
-                            <div className="nav-field">Total Items</div>
-                            <div className="nav-value">382</div>
-                        </a>
-                    </li>
-                    <li className="nav-item">
-                        <a href="#profile-followers" className="nav-link active" data-toggle="tab">
-                            <div className="nav-field">Completed</div>
-                            <div className="nav-value">1.3m</div>
-                        </a>
-                    </li>
-                    <li className="nav-item">
-                        <a href="#profile-media" className="nav-link" data-toggle="tab">
-                            <div className="nav-field">Remaining</div>
-                            <div className="nav-value">1,397</div>
-                        </a>
-                    </li>
-                    <li className="nav-item">
-                        <a href="#profile-media" className="nav-link" data-toggle="tab">
-                            <div className="nav-field">Buddies</div>
-                            <div className="nav-value">120</div>
-                        </a>
-                    </li>
-                    <li className="nav-item">
-                        <a href="#profile-followers" className="nav-link" data-toggle="tab">
-                            <div className="nav-field">Likes</div>
-                            <div className="nav-value">2,592</div>
-                        </a>
-                    </li>
-                    <li><button onClick={this.props.setUserToNull}>Sign Out</button></li>
-                </ul>
-            </div>
-        </div>
-
-        );
-    }
-}
-
-
-class ProfileSiderBar extends React.Component {
-    render() {
-        return (
-            <div className="profile-sidebar">
-                <div className="desktop-sticky-top">
-                    {/* <h4>{this.props.profileName}</h4> */}
-                    <div className="font-weight-600 mb-3 text-muted mt-n1">{this.props.profileName}'s status:
-                        <br></br>"{this.props.status}"
-                    </div>
-                    <div className="font-weight-600 mb-3 text-muted mt-n1">{this.props.profileName}'s status:
-                        <br></br>"{this.props.status}"
-                    </div>
-                    <div className="font-weight-600 mb-3 text-muted mt-n1">{this.props.profileName}'s status:
-                        <br></br>"{this.props.status}"
-                    </div>
-                    <div className="font-weight-600 mb-3 text-muted mt-n1">{this.props.profileName}'s status:
-                        <br></br>"{this.props.status}"
-                    </div>
-                </div>
-            </div>
-
-        );
-    }
+  }
+    
 }
 
 export default ProfileView;

@@ -63,13 +63,14 @@ class App extends React.Component  {
 
   async refreshUserData(identifier) {
     console.log("refreshUserData()");
+    console.log(identifier);
     let latestUserData = await api.getUserByIdentifier(identifier);
     this.showProfileView(latestUserData);
   }
 
   setUserToNull() {
     console.log("handleSignOut()");
-    //this.setState({user: null});
+    this.setState({user: null});
     this.showLoginPage();
   }
 

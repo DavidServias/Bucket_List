@@ -2,6 +2,8 @@
 import React from 'react';
 import './css/profile_view.css';
 import ProfilePic from './profile_pic.png';
+import Button from '@mui/material/Button';
+import EditIcon from '@mui/icons-material/Edit';
 
 function AboutMe (props) {
     return (
@@ -16,6 +18,9 @@ function AboutMe (props) {
                 <p>Status:</p>
                 <p>"{props.status}"</p> 
             </div>
+            <Button variant="outlined" startIcon={<EditIcon />}>
+                Update Status
+            </Button>
             
         
         </div>

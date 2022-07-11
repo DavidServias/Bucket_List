@@ -1,5 +1,3 @@
-
-
 async function createUser(data) {
     let url = 'http://localhost:8080/users/';
     let reqBody = data;
@@ -88,7 +86,6 @@ async function updateItemStatus(userIdentifier, itemId, completed) {
 }
 
 
-
 // router.get('/:identifier/find_friends', userController.findFriends);
 async function findFriends(identifier) {
     console.log("findFriends()");
@@ -97,15 +94,61 @@ async function findFriends(identifier) {
         method: 'GET',
         headers: {'Content-Type':'application/json;charset=utf-8'}
     };
-    // console.log(url);
-    // console.log(options);
     var response = await fetch(url,options);
-    response = response.json();   
+    response = await response.json();
+    console.log(response);
     return response;
 }
 
 
 
+// const AccountSummarySchema = new Schema({
+//     name: {type: String, required: true},
+//     status: {type: String, required: true},
+//     userIdentifier: {type: String, required: true}
+//   })
+
+// router.patch('/:identifier/follow', userController.follow);
+// sample accountSummary 
+// {    "name":"David",
+//      "status": "happy",
+//      "userIdentifier": "asldkfadjf"
+//  }
+async function follow(userIdentifier, accountSummary) {
+    console.log("follow()");
+    let url = "http://localhost:8080/users/";
+    url += userIdentifier + "/follow";
+    let reqBody = JSON.stringify(accountSummary);
+    console.log(reqBody);
+    let options = {
+        method: 'PATCH',
+        headers: {'Content-Type':'application/json;charset=utf-8'},
+        body: reqBody
+    };
+    var response= await fetch(url, options);
+    var data = await response.json();
+    
+    console.log(data);
+    
+}
+
+async function unfollow(userIdentifier, accountToUnfollow) {
+    console.log("unfollow()");
+    let url = "http://localhost:8080/users/";
+    url += userIdentifier + "/unfollow";
+    let reqBody = '{"accountToUnfollow": "'+accountToUnfollow+'"}';
+    console.log(reqBody);
+    let options = {
+        method: 'DELETE',
+        headers: {'Content-Type':'application/json;charset=utf-8'},
+        body: reqBody
+    };
+    var response= await fetch(url, options);
+    var data = await response.json();
+    
+    console.log(response);
+    
+}
 
 
 export default {
@@ -115,6 +158,8 @@ export default {
     removeBucketListItem,
     updateItemStatus,
     addBucketListItem,
-    findFriends
+    findFriends,
+    follow,
+    unfollow
 
 }

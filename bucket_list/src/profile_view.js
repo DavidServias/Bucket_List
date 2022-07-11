@@ -2,13 +2,8 @@ import React from 'react';
 //import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/profile_view.css';
 import BucketList from './bucket_list';
-import FollowedList from './followed_list';
+import PeopleList from './people_list';
 import AboutMe from './about_me';
-
-// import PropTypes from 'prop-types';
-// import Tabs from '@mui/material/Tabs';
-// import Tab from '@mui/material/Tab';
-// import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 
 // import * as React from 'react';
@@ -30,10 +25,8 @@ class ProfileView extends React.Component {
     }
     
     render(){
-        console.log("profile_view: " + this.props.bucketListData);
         return (
             <Box  sx={{ height: '500px', }}>
-            
             <Grid container spacing={0}>
                 {/* sidebar */}
                 <Grid item sm={2} xs={12} order={{sm:0, xs: 1}} sx={{height:'500px'}} >
@@ -44,12 +37,9 @@ class ProfileView extends React.Component {
                     <Grid container spacing={0} justifyContent="space-between">
                         {/* header */}
                         <Grid item xs={12} alignItems="center" >
-                           
                         </Grid>
                         <Grid item md={3} xs={12}>
-                            <AboutMe 
-                                status = {this.props.status}
-                            />
+                            <AboutMe status = {this.props.status}/>
                         </Grid>
                         <Grid item sm={9} xs={12}>
                         <BucketList 
@@ -61,10 +51,10 @@ class ProfileView extends React.Component {
                         />  
                         </Grid>
                         <Grid item sm={6} xs={12}>
-                            <Item>David's Deep Thoughts</Item>
+                            <Item>{this.props.profileName}'s Deep Thoughts</Item>
                         </Grid>
                         <Grid item sm={6} xs={12}>
-                        <FollowedList 
+                        <PeopleList 
                             userIdentifier = {this.props.userIdentifier}
                             friendsListData = {this.props.friendsListData}
                             refreshUserData = {this.props.refreshUserData}

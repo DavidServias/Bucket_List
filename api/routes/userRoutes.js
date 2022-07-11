@@ -12,7 +12,8 @@ router.post('/', userController.create_user);
 router.delete('/:id', userController.delete_user);
 router.post('/login', userController.get_user_by_identifier);
 router.get('/:identifier/get_friends', userController.getFriends);
-router.patch('/:identifier/add_friend', userController.addFriend);
+router.patch('/:identifier/follow', userController.follow);
+router.delete('/:identifier/unfollow', userController.unfollow);
 router.get('/:identifier/find_friends', userController.findFriends);
 
 router.patch('/:id/update_status', userController.updateStatus);

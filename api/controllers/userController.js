@@ -43,27 +43,46 @@ const get_user_by_id = (req, res) => {
 }
 
 
-const addFriend = async (req, res) => {
-    console.log("hello?");
+// router.patch('/:identifier/follow', userController.follow);
+const follow = async (req, res) => {
     try {
-       
         const userIdentifier = req.params.identifier;
         let filter = {"identifier": userIdentifier};
-        let newFriendData = req.body;
-        let newFriend = AccountSummary(newFriendData);
+        //let newFriendData = req.body;
+        let newFriend = AccountSummary(req.body);
         const update = {
             $push: {"friends_list": [newFriend]}
         };
         const options = {new: true}; 
         const result = await User.findOneAndUpdate(
             filter, update, options);
-        
         res.send(result)
     }
     catch (error) {
         res.status(400).json({ message: error.message })
     }
 
+};
+
+
+// router.delete('/:identifier/unfollow', userController.unfollow);
+// reqBody: {"accountToUnfollow":"userIdentifier"}
+const unfollow = async (req,res) => {
+    console.log("unfollow()");
+    try {
+        const userIdentifier = req.params.identifier;
+        const accountToUnfollow = req.body['accountToUnfollow'];
+        let filter = {"identifier": userIdentifier};
+        let update = { $pull: { "friends_list": {"userIdentifier": accountToUnfollow } } };
+        const options = {new: true}; 
+        const result = await User.findOneAndUpdate(
+            filter, update, options);
+        res.send(result)
+          
+    }
+    catch (error) {
+        res.status(400).json({ message: error.message })
+    }
 };
 
 
@@ -80,10 +99,7 @@ const getFriends = (req, res) => {
                 } else {
                     const followed = result.friends_list;
                     res.send(followed );
-                };
-
-                    
-               
+                };     
             }
         }
     );
@@ -155,7 +171,6 @@ const addLikedItem = async (req, res) => {
         const updatedData = {
             $push: { "liked_items": newLikedItem }
         };
-        console.log(updatedData);
         const options = {new: true};
         const result = await User.findByIdAndUpdate(
         userId, updatedData, options);
@@ -203,8 +218,7 @@ const get_user_by_identifier = (req, res) => {
                 } else {
                     res.send(result);
                 };
-                    
-               
+                              
             }
         }
     );
@@ -221,7 +235,8 @@ module.exports = {
     addLikedItem,
     updateStatus,
     get_user_by_identifier,
-    addFriend,
+    follow,
+    unfollow,
     findFriends
 }
 

@@ -34,16 +34,22 @@ export class BucketList extends React.Component {
         console.log("onSubmit()");
     }
     render(){
-        //console.log("bucket_list_props: "+this.props.bucketListData);
-        console.log("bucket_list_props: "+this.props.profileName);
-        //const ariaLabel = { 'aria-label': 'description' };
         return (
-            // <Box sx={{ width: '100%', /*maxWidth: 360, */bgcolor: 'background.paper' }}>
+/* <ProfileView 
+            profileName = {this.state.user['profile_name']}
+            status = {this.state.user['status']}
+            bucketListData ={this.state.user['bucket_list']} 
+            friendsListData = {this.state.user['friends_list']}
+            userIdentifier = {this.state.user['identifier']}
+            lookUpUser = {this.lookUpUser}
+            refreshUserData = {this.refreshUserData}
+            setUserToNull = {this.setUserToNull}
+          />  */
+
             <div id="bucket-list-container">
             <h1>{this.props.profileName}'s Bucket List</h1>
             <div className="font-weight-600 mb-3 text-muted mt-n1">
                 Here is what {this.props.profileName} hopes to experience during this life: 
-
                     </div>
             <Divider />
             <nav aria-label="secondary mailbox folders">
@@ -70,7 +76,6 @@ export class BucketList extends React.Component {
                     fullWidth 
                     margin="none"
                     label={this.addItemPlaceholderText}
-                    // id="fullWidth"
                     value={this.state.newItem} 
                     placeholder={this.addItemPlaceholderText} 
                     InputProps={{

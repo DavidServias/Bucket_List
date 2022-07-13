@@ -33,6 +33,44 @@ async function createUser(data) {
 
 
 
+// const updateStatus = async (req, res) => {
+    //     try {
+    //         const userId = req.params.id;
+    //         const updatedData = req.body;
+    //         const options = {new: true};
+    //         const result = await User.findByIdAndUpdate(
+    //         userId, updatedData, options);
+    //         res.send(result)
+    //     }
+    //     catch (error) {
+    //         res.status(400).json({ message: error.message })
+    //     }
+    // };
+    //router.patch('/:user_identifier/update_status', userController.updateStatus);
+/*******************************************************
+**Function Name: updateStatus(newStatus)
+**Description: checks args
+**Params: both command line args
+**Pre-Conditions: na
+**Post-Conditions:na
+**TODO:
+1. Handle errors.
+********************************************************/
+async function updateStatus(userIdentifier, newStatus) {
+    console.log("updateStatus()");
+    let url = 'http://localhost:8080/users/' + userIdentifier + '/update_status';
+    let options = {
+        method: 'PATCH',
+        headers: {'Content-Type':'application/json;charset=utf-8'},
+        body: '{"status": "' + newStatus + '"}'
+    };
+    var response = await fetch(url,options);
+    return response;
+};
+
+
+
+
 /*******************************************************
 **Function Name: getUserByIdentifier(identifier)
 **Description: checks args
@@ -128,7 +166,7 @@ async function updateItemStatus(userIdentifier, itemId, completed) {
     await fetch(url, options)
         .then(response => response.json())
         .then(data => console.log(data));
-}
+};
 
 
 
@@ -238,6 +276,7 @@ export default {
     addBucketListItem,
     findFriends,
     follow,
-    unfollow
+    unfollow,
+    updateStatus
 
 }

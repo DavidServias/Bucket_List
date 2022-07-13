@@ -114,17 +114,17 @@ const findFriends = async (req, res) => {
     //generate friends list
     let friends = [userIdentifier];// starts with self, so self is not included in friend
     // suggestions.
-    console.log(user);
+    // console.log(user);
     let length = user.friends_list.length;
     for (let i = 0; i < length; i += 1) {
         let nextFriend = user.friends_list[i].account_identifier;
-        console.log("next friend: "+ nextFriend);
+        // console.log("next friend: "+ nextFriend);
         friends.push(nextFriend);
     };
     // find users that are not on the friend list already:
     let suggestions = await User.find({ "user_identifier": { $nin: friends} });
-    console.log('suggestion results from findFriends controller');
-    console.log(suggestions);
+    // console.log('suggestion results from findFriends controller');
+    // console.log(suggestions);
     res.send(suggestions);
 
 };
@@ -152,13 +152,15 @@ const create_user = (req, res) => {
 // 1. Testing 
 // 2. Error Handling
 const updateStatus = async (req, res) => {
+    let userIdentifier = req.params.user_identifier;
     try {
-        const userId = req.params.id;
-        const updatedData = req.body;
-        const options = {new: true};
-        const result = await User.findByIdAndUpdate(
-        userId, updatedData, options);
+        let filter = {"user_identifier": userIdentifier};
+        let update = req.body;
+        const options = {new: true}; 
+        const result = await User.findOneAndUpdate(
+            filter, update, options);
         res.send(result)
+      
     }
     catch (error) {
         res.status(400).json({ message: error.message })

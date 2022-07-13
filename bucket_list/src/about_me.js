@@ -1,11 +1,45 @@
 //import { Container } from '@mui/system';
 import React from 'react';
+import { useState } from 'react';
 import './css/profile_view.css';
 import ProfilePic from './profile_pic.png';
 import Button from '@mui/material/Button';
 import EditIcon from '@mui/icons-material/Edit';
+import TextField from '@mui/material/TextField';
+import ClickAwayListener from '@mui/material/ClickAwayListener';
+import InputAdornment from '@mui/material/InputAdornment';
+import IconButton from '@mui/material/IconButton';
+import AddIcon from '@mui/icons-material/Add';
+import api from './apiCalls';
 
-function AboutMe (props) {
+
+function AboutMe(props) {
+    const [updatingStatus, setUpdatingStatus] = useState(false);
+    const [newStatus, setNewStatus] = useState("");
+
+    const handleChange = (e) => {
+        setNewStatus(e.target.value);
+    };
+    
+    const toggleUpdatingState = function () {
+        setUpdatingStatus(updatingStatus ? false: true);
+    };
+
+    const handleClickAway = function () {
+        setNewStatus("");
+        setUpdatingStatus(updatingStatus ? false: true);
+    }
+
+
+    
+    const updateStatus = function() {
+        api.updateStatus(props.userIdentifier, newStatus);
+        setUpdatingStatus(false);
+        props.refreshUserData(props.userIdentifier);
+
+
+    };
+
     return (
         <div id="about-me-container">
             
@@ -18,9 +52,35 @@ function AboutMe (props) {
                 <p>Status:</p>
                 <p>"{props.status}"</p> 
             </div>
-            <Button variant="outlined" startIcon={<EditIcon />}>
-                Update Status
-            </Button>
+            {updatingStatus ? 
+                
+                <ClickAwayListener onClickAway={handleClickAway}>
+                    <TextField
+
+                    fullWidth 
+                    margin="none"
+                    label={"Update Status"}
+                    value={newStatus} 
+                    placeholder={updateStatus} 
+                    onChange={handleChange}
+                    InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <IconButton>
+					            <AddIcon onClick = {updateStatus}/>
+				            </IconButton>
+                          </InputAdornment>
+                        ),
+                    }}
+                    />
+                </ClickAwayListener>
+                
+                : 
+                <Button variant="outlined" 
+                    startIcon={<EditIcon />}
+                    onClick = {toggleUpdatingState}
+                >Update Status</Button>
+            }           
             
         
         </div>

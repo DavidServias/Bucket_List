@@ -25,9 +25,7 @@ class ProfileView extends React.Component {
     }
     
     render(){
-        // console.log("from profileView: &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&77");
-        // console.log(this.props.friendsListData);
-        ///only included identifier
+        
         return (
             <Box  sx={{ height: '500px', }}>
             <Grid container spacing={0}>
@@ -42,7 +40,11 @@ class ProfileView extends React.Component {
                         <Grid item xs={12} alignItems="center" >
                         </Grid>
                         <Grid item md={3} xs={12}>
-                            <AboutMe status = {this.props.status}/>
+                            <AboutMe 
+                                status = {this.props.status}
+                                userIdentifier = {this.props.userIdentifier}
+                                refreshUserData = {this.props.refreshUserData}
+                            />
                         </Grid>
                         <Grid item sm={9} xs={12}>
                         <BucketList 

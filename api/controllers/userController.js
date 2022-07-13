@@ -43,13 +43,14 @@ const get_user_by_id = (req, res) => {
 }
 
 
-// router.patch('/:identifier/follow', userController.follow);
+// router.patch('/:user_dentifier/follow', userController.follow);
 const follow = async (req, res) => {
     try {
-        const userIdentifier = req.params.identifier;
-        let filter = {"identifier": userIdentifier};
+        const userIdentifier = req.params.user_identifier;
+        let filter = {"user_identifier": userIdentifier};
         //let newFriendData = req.body;
         let newFriend = AccountSummary(req.body);
+        console.log("accountSummary: "+ newFriend);
         const update = {
             $push: {"friends_list": [newFriend]}
         };
@@ -65,15 +66,15 @@ const follow = async (req, res) => {
 };
 
 
-// router.delete('/:identifier/unfollow', userController.unfollow);
+// router.delete('/:user_identifier/unfollow', userController.unfollow);
 // reqBody: {"accountToUnfollow":"userIdentifier"}
 const unfollow = async (req,res) => {
     console.log("unfollow()");
     try {
-        const userIdentifier = req.params.identifier;
+        const userIdentifier = req.params.user_identifier;
         const accountToUnfollow = req.body['accountToUnfollow'];
-        let filter = {"identifier": userIdentifier};
-        let update = { $pull: { "friends_list": {"userIdentifier": accountToUnfollow } } };
+        let filter = {"user_identifier": userIdentifier};
+        let update = { $pull: { "friends_list": {"account_identifier": accountToUnfollow } } };
         const options = {new: true}; 
         const result = await User.findOneAndUpdate(
             filter, update, options);
@@ -86,16 +87,16 @@ const unfollow = async (req,res) => {
 };
 
 
-//router.get('/:identifier/get-friends', userController.getFriends);
+//router.get('/:user_identifier/get-friends', userController.getFriends);
 const getFriends = (req, res) => {
-    const identifier = req.params.identifier;
-    User.findOne({identifier: identifier},
+    const userIdentifier = req.params.user_identifier;
+    User.findOne({user_identifier: userIdentifier},
         function(err, result){
             if (err) {
                 console.log(err);
             } else {
                 if (result === null) {
-                    res.send({"message":"no profile matching that identifier"});
+                    res.send({"message":"no profile matching that user_identifier"});
                 } else {
                     const followed = result.friends_list;
                     res.send(followed );
@@ -107,18 +108,23 @@ const getFriends = (req, res) => {
 
 
 const findFriends = async (req, res) => {
-    const identifier = req.params.identifier;
-    let user = await User.findOne({identifier: identifier});
+    console.log("findFriends()");
+    const userIdentifier = req.params.user_identifier;
+    let user = await User.findOne({"user_identifier": userIdentifier});
     //generate friends list
-    let friends = [identifier];// starts with self, so self is not included in friend
+    let friends = [userIdentifier];// starts with self, so self is not included in friend
     // suggestions.
+    console.log(user);
     let length = user.friends_list.length;
     for (let i = 0; i < length; i += 1) {
-        let nextFriend = user.friends_list[i].userIdentifier;
+        let nextFriend = user.friends_list[i].account_identifier;
+        console.log("next friend: "+ nextFriend);
         friends.push(nextFriend);
     };
     // find users that are not on the friend list already:
-    let suggestions = await User.find({ "identifier": { $nin: friends} });
+    let suggestions = await User.find({ "user_identifier": { $nin: friends} });
+    console.log('suggestion results from findFriends controller');
+    console.log(suggestions);
     res.send(suggestions);
 
 };
@@ -207,14 +213,14 @@ const delete_user = (req, res) => {
 
 
 const get_user_by_identifier = (req, res) => {
-    const identifier = req.body.identifier;
-    User.findOne({identifier: identifier},
+    const userIdentifier = req.body.user_identifier;
+    User.findOne({user_identifier: userIdentifier},
         function(err, result){
             if (err) {
                 console.log(err);
             } else {
                 if (result === null) {
-                    res.send({"message":"no profile matching that identifier"});
+                    res.send({"message":"no profile matching that user_identifier"});
                 } else {
                     res.send(result);
                 };

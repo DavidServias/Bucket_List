@@ -39,7 +39,7 @@ export default class LoginScreen extends Component {
      handleCreateAccount() {
         let newUserData = {
             "google_verified": false,//maybe backend doesn't need this?
-            "identifier" : this.generateIdentifier()
+            "user_identifier" : this.generateIdentifier()
         };
         this.props.showCreateProfile(newUserData);
      }
@@ -54,11 +54,11 @@ export default class LoginScreen extends Component {
         console.log("profile data: " + profileData);
         // if googleUser is does not have a BucketList profile,
         // show create account form.
-        if (profileData.message === "no profile matching that identifier") {
+        if (profileData.message === "no profile matching that user_identifier") {
             console.log("no profile data");
             let newUserData = {
                 "google_verified": true,//maybe backend doesn't need this?
-                "identifier" : googleData['sub']
+                "user_identifier" : googleData['sub']
             };
             this.props.showCreateProfile(newUserData);
         // If google user has a profile already, set user in state to
@@ -76,14 +76,14 @@ export default class LoginScreen extends Component {
 
     generateIdentifier() {
         var chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        var identifierLength = 12;
-        var identifier = "";
-        for (var i = 0; i <= identifierLength; i++) {
+        var userIdentifierLength = 12;
+        var userIdentifier = "";
+        for (var i = 0; i <= userIdentifierLength; i++) {
           var randomNumber = Math.floor(Math.random() * chars.length);
-          identifier += chars.substring(randomNumber, randomNumber +1);
+          userIdentifier += chars.substring(randomNumber, randomNumber +1);
          }
     
-        return identifier;
+        return userIdentifier;
     }
     
 

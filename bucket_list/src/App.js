@@ -53,18 +53,18 @@ class App extends React.Component  {
 
 
   // Should maybe move this to Login
-  async lookUpUser(identifier) {
+  async lookUpUser(userIdentifier) {
     // const userId = "62bd0a4fe89b669738f21dae";
     //let TEMP = "1234";
-    let dataFromUser = await api.getUserByIdentifier(identifier);
+    let dataFromUser = await api.getUserByIdentifier(userIdentifier);
     console.log("data:" + dataFromUser);
     return dataFromUser;
   }
 
-  async refreshUserData(identifier) {
+  async refreshUserData(userIdentifier) {
     console.log("refreshUserData()");
-    console.log(identifier);
-    let latestUserData = await api.getUserByIdentifier(identifier);
+    console.log(userIdentifier);
+    let latestUserData = await api.getUserByIdentifier(userIdentifier);
     this.showProfileView(latestUserData);
   }
 
@@ -75,6 +75,14 @@ class App extends React.Component  {
   }
 
   render() {
+    // if(this.state.showProfile) {
+    //   console.log("friendsList from App: ########################################");
+    //   console.log(this.state.user.friends_list);
+    // } 
+    // else (
+    //   console.log("profile ")
+    // )
+    
     return (
       <div className="App">
         
@@ -92,7 +100,7 @@ class App extends React.Component  {
             status = {this.state.user['status']}
             bucketListData ={this.state.user['bucket_list']} 
             friendsListData = {this.state.user['friends_list']}
-            userIdentifier = {this.state.user['identifier']}
+            userIdentifier = {this.state.user['user_identifier']}
             lookUpUser = {this.lookUpUser}
             refreshUserData = {this.refreshUserData}
             setUserToNull = {this.setUserToNull}

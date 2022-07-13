@@ -11,12 +11,12 @@ router.get('/:id', userController.get_user_by_id);
 router.post('/', userController.create_user);
 router.delete('/:id', userController.delete_user);
 router.post('/login', userController.get_user_by_identifier);
-router.get('/:identifier/get_friends', userController.getFriends);
-router.patch('/:identifier/follow', userController.follow);
-router.delete('/:identifier/unfollow', userController.unfollow);
-router.get('/:identifier/find_friends', userController.findFriends);
+router.get('/:user_identifier/get_friends', userController.getFriends);
+router.patch('/:user_identifier/follow', userController.follow);
+router.delete('/:user_identifier/unfollow', userController.unfollow);
+router.get('/:user_identifier/find_friends', userController.findFriends);
 
-router.patch('/:id/update_status', userController.updateStatus);
+router.patch('/:user_identifier/update_status', userController.updateStatus);
 
 
 module.exports = router;

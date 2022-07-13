@@ -25,6 +25,9 @@ class ProfileView extends React.Component {
     }
     
     render(){
+        // console.log("from profileView: &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&77");
+        // console.log(this.props.friendsListData);
+        ///only included identifier
         return (
             <Box  sx={{ height: '500px', }}>
             <Grid container spacing={0}>

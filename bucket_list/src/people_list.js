@@ -26,13 +26,30 @@ export class PeopleList extends Component {
         this.addItemPlaceholderText = "Add an Item to Your Bucket List";
         this.removeAccount = this.removeAccount.bind(this);
         
-        this.state = {newItem: "", suggestedAccounts: []};
+        this.state = {
+          newItem: "",
+          followedAccounts: [],
+          suggestedAccounts: [], };
 
     }
 
     async componentDidMount() {
+      
+      // initialize followedAccounts()
       await this.getSuggestedAccounts();
+  
+      
     }
+
+    followedAccounts() {
+      // let followedAccounts = [];
+      // let summary = {};
+      // for (let i = 0; i < this.props.friendsListData.length; i += 1) {
+      //   summary['account_summary_name']
+      // }
+
+    }
+    
 
     async removeAccount(accountIdentifier)  {
       console.log("removeAccount()");
@@ -52,10 +69,18 @@ export class PeopleList extends Component {
     async getSuggestedAccounts(){
       console.log("getSuggestedAccounts()");
       let accounts = await api.findFriends(this.props.userIdentifier, this.props.friendsListData);
+      console.log("suggestedAccounts");
+      console.log(accounts);
       this.setState({suggestedAccounts: accounts});
     }
     
     render(){
+        // console.log("From people's list:********************************** ");
+        // console.log("suggested: ");
+        // console.log(this.state.suggestedAccounts);
+        // console.log("within peopleList********************, friendsListData:");
+        // console.log(this.props.friendsListData);//PROBLEM only Identifier included
+     
         return (
             <Box sx={{ width: '100%', /*maxWidth: 360, */bgcolor: 'background.paper' }}>
               <div id="followed-list-container">
@@ -66,7 +91,7 @@ export class PeopleList extends Component {
               <nav aria-label="secondary mailbox folders">
                 <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
                   <FollowedList 
-                    friendsListData={this.props.friendsListData}
+                    data={this.props.friendsListData}
                     refreshUserdata = {this.props.refreshUserdata}
                     removeAccount = {this.removeAccount}
                     userIdentifier = {this.props.userIdentifier}
@@ -80,7 +105,7 @@ export class PeopleList extends Component {
                   userIdentifier = {this.props.userIdentifier}
                   refreshUserdata = {this.props.refreshUserdata}
                   followAccount = {this.followAccount}
-                  suggestedAccounts = {this.state.suggestedAccounts}
+                  data = {this.state.suggestedAccounts}
                 />
               </div>
             </Box>
@@ -90,17 +115,20 @@ export class PeopleList extends Component {
 
 function FollowedList(props) {
   //let friendsListData = props.friendsListData;  
+  console.log("followedList():");
+  console.log(props.data);
   return (
     <div>
-        {props.friendsListData.map(function (friend) {
+        {!props.data ? <h1>Loading</h1>:
+          props.data.map(function (friend) {
          
           return (
             <AccountSummary 
               following = {true}
-              profile_name = {friend['name']}
-              status = {friend['status']}
-              key = {friend['userIdentifier']}
-              accountIdentifier = {friend['userIdentifier']}
+              accountSummaryName = {friend['account_summary_name']}
+              accountSummaryStatus = {friend['account_summary_status']}
+              key = {friend['account_identifier']}
+              accountIdentifier = {friend['account_identifier']}
               userIdentifier = {props.userIdentifier}
               refreshUserdata = {props.refreshUserdata}
               removeAccount = {props.removeAccount}
@@ -115,7 +143,7 @@ function FollowedList(props) {
 
 
 function SuggestionsList(props) {
-  const [accounts, setSuggestedAccounts] = useState(null);
+  //const [accounts, setSuggestedAccounts] = useState(null);
   
 
 
@@ -126,17 +154,27 @@ function SuggestionsList(props) {
   //       setSuggestedAccounts(arr)
   //     });
   // },[]);
-  
+  // console.log("inside SuggestionsList: ");
+  // console.log(props.data);
   return (
     <div>
-        { props.suggestedAccounts.map(function (friend) {
+        { !props.data ? <h1>Loading</h1>:
+          props.data.map(function (friend) {
+        
+          // console.log("suggestedList component:");
+          // console.log(friend.account_identifier);//works
+          // console.log(friend.accountIdentifier);//undefined
+
+          // console.log(friend['account_identifier']);//works
+
+
           return (
             <AccountSummary 
               following = {false}
-              profile_name = {friend['profile_name']}
-              status = {friend['status']}
-              key = {friend['identifier']}
-              accountIdentifier = {friend['identifier']}
+              accountSummaryName = {friend['account_summary_name']}
+              accountSummaryStatus = {friend['account_summary_status']}
+              key = {friend['account_identifier']}
+              accountIdentifier = {friend['account_identifier']}
               refreshUserdata = {props.refreshUserdata}
               followAccount = {props.followAccount}
               userIdentifier = {props.userIdentifier}
@@ -153,22 +191,35 @@ function SuggestionsList(props) {
  // async function follow(userIdentifier, accountSummary) {
 // {    "name":"David",
 //      "status": "happy",
-//      "userIdentifier": "asldkfadjf"
+//      "account_identifier": "asldkfadjf"
 //  }
 function AccountSummary(props) {
   
   const handleClick = function() {
+    console.log(props.accountIdentifier);//undefined
     const data = {
-      name:props.profile_name,
-      status: props.status,
-      userIdentifier: props.accountIdentifier
+      account_summary_name:props.accountSummaryName,
+      account_summary_status: props.accountSummaryStatus,
+      account_identifier: props.accountIdentifier
     };
+    // console.log("data sent from component: " + JSON.stringify(data));
     
     props.following ? props.removeAccount(props.accountIdentifier):
       props.followAccount(data);
 
   };
+  try {
+    // //console.log("accountSummary check++++++++++++++++++++++++++++++++++");
+    // console.log(props.accountIdentifier);
+    // console.log(props.accountSummaryName);
+    // console.log(props.accountSummaryStatus);
+  }
+  catch {
+    console.log("error in accountSummary");
+  }
+
   return (
+    
     <ListItem alignItems="flex-start" 
             secondaryAction={
                 <IconButton 
@@ -184,10 +235,10 @@ function AccountSummary(props) {
               }
             >
               <ListItemAvatar>
-                <Avatar sx={{bgcolor: deepOrange[500]}} >{props.profile_name[0]}</Avatar>
+                <Avatar sx={{bgcolor: deepOrange[500]}} >{props.accountSummaryName[0]}</Avatar>
               </ListItemAvatar>
               <ListItemText
-                primary={props.profile_name}
+                primary={props.accountSummaryName}
                 secondary={
                   <React.Fragment>
                     <Typography
@@ -198,7 +249,7 @@ function AccountSummary(props) {
                     >
                       Status: 
                     </Typography>
-                    "{props.status}"
+                    "{props.accountSummaryStatus}"
                   </React.Fragment>
                 }
               />

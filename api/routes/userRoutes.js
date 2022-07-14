@@ -1,6 +1,6 @@
-const express = require('express');
-const userController = require('../controllers/userController');
-const router = express.Router();
+import { Router } from 'express';
+import userController from '../controllers/userController.js';
+const router = Router();
 // const passport =require('passport');
 // var GoogleStrategy = require( 'passport-google-oauth2' ).Strategy;
 
@@ -19,4 +19,4 @@ router.get('/:user_identifier/find_friends', userController.findFriends);
 router.patch('/:user_identifier/update_status', userController.updateStatus);
 
 
-module.exports = router;
+export default router;

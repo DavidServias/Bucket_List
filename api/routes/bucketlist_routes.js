@@ -1,13 +1,13 @@
-const express = require('express');
-const userController = require('../controllers/userController');
-const bucketlistController = require('../controllers/bucketlistController');
-const router = express.Router();
+import { Router } from 'express';
+import userController from '../controllers/userController.js';
+import { addItem, updateItemStatus, removeItem } from '../controllers/bucketlistController.js';
+const router = Router();
 
 
 router.patch('/:user_identifier/add-liked-item', userController.addLikedItem);
-router.patch('/:user_identifier/add-item', bucketlistController.addItem);
-router.patch('/:user_identifier/:item_id/item-status', bucketlistController.updateItemStatus);
-router.delete('/:user_identifier/:item_id/remove-item', bucketlistController.removeItem);
+router.patch('/:user_identifier/add-item', addItem);
+router.patch('/:user_identifier/:item_id/item-status', updateItemStatus);
+router.delete('/:user_identifier/:item_id/remove-item', removeItem);
 
 
-module.exports = router;
+export default router;

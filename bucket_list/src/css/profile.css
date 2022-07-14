@@ -60,4 +60,9 @@ h2 {
 
 .bucket-list-container {
     margin: 2%;
+    padding: 0px;
+}
+ 
+h3 {
+    margin: 0px;
 }

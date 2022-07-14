@@ -1,8 +1,8 @@
-const express = require('express');
-const loginController = require('../controllers/loginController');
-const router = express.Router();
+import { Router } from 'express';
+import { handle_login, whoAreYou } from '../controllers/loginController.js';
+const router = Router();
 
-router.post('/handler', loginController.handle_login);
-router.get('/favicon.ico', loginController.whoAreYou);
+router.post('/handler', handle_login);
+router.get('/favicon.ico', whoAreYou);
 
-module.exports = router;
+export default router;

@@ -99,6 +99,7 @@ class App extends React.Component  {
             profileName = {this.state.user['profile_name']}
             status = {this.state.user['status']}
             bucketListData ={this.state.user['bucket_list']} 
+            deepThoughts = {this.state.user['deep_thoughts']}
             friendsListData = {this.state.user['friends_list']}
             userIdentifier = {this.state.user['user_identifier']}
             lookUpUser = {this.lookUpUser}

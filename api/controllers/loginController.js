@@ -1,4 +1,5 @@
-const jwt  = require('jsonwebtoken');
+import jsonwebtoken from 'jsonwebtoken';
+const {jwt} = jsonwebtoken;
 
 
 const handle_login = async (request, response) => {
@@ -33,7 +34,7 @@ const whoAreYou = async (request, response) => {
 
 
 
-module.exports = {
+export {
     handle_login,
     whoAreYou
 }

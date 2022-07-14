@@ -171,6 +171,66 @@ async function updateItemStatus(userIdentifier, itemId, completed) {
 
 
 /*******************************************************
+**Function Name: addThought
+**Description: checks args
+**Params: both command line args
+**Pre-Conditions: na
+**Post-Conditions:Returns an array of account_summaries
+**TODO:
+1. Handle errors.
+********************************************************/
+//ROUTE: 
+//http://localhost:8080/thoughts/{{DavidIdentifier}}/add_thought
+//Sample Request: 
+// {
+//     "text": "The love you take is equal to the love you make."
+// }
+//Function Call:
+//await api.addThought(this.props.userIdentifier, this.state.newThought);
+async function addThought(userIdentifier, newThought) {
+    console.log("addThought()");
+    let url = "http://localhost:8080/thoughts/";
+    url += userIdentifier + "/add_thought";
+    let reqBody = JSON.stringify({"text": newThought});
+    let options = {
+        method: 'PATCH',
+        headers: {'Content-Type':'application/json;charset=utf-8'},
+        body: reqBody
+    };
+    var response= await fetch(url, options);
+    var data = await response.json();
+      
+}
+
+
+/*******************************************************
+**Function Name: removeThought
+**Description: checks args
+**Params: both command line args
+**Pre-Conditions: na
+**Post-Conditions:Returns an array of account_summaries
+**TODO:
+1. Handle errors.
+********************************************************/
+// ROUTE:
+// router.delete('/:user_identifier/:thought_id/remove-thought', removeThought);
+// FUNCTION CALL: 
+//  await api.removeThought(this.props.userIdentifier, this.props.thought_id);
+async function removeThought(userIdentifier, thoughtId) {
+    console.log("removeThought()");
+        let url = "http://localhost:8080/thoughts/";
+        url += userIdentifier + "/" + thoughtId +  "/remove_thought";
+        let options = {
+            method: 'DELETE',
+            headers: {'Content-Type':'application/json;charset=utf-8'},
+        };
+        var response= await fetch(url, options);
+        //var data = await response.json();
+        return response;
+
+};
+
+/*******************************************************
 **Function Name: args_are_valid
 **Description: checks args
 **Params: both command line args
@@ -277,6 +337,8 @@ export default {
     findFriends,
     follow,
     unfollow,
-    updateStatus
+    updateStatus, 
+    addThought,
+    removeThought
 
 }

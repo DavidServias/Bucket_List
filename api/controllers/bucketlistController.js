@@ -1,6 +1,6 @@
-const { User } = require('../models/user');
-const { Item } = require('../models/user');
-const {userRoutes} = require('../routes/userRoutes.js');
+import { User, Item } from '../models/user.js';
+//const { Item } = require('../models/user').default;
+//const {userRoutes} = require('../routes/userRoutes.js').default;
 
 
 //Params:req, res
@@ -82,7 +82,7 @@ const removeItem = async (req, res) => {
 };
 
 
-module.exports = {
+export {
     addItem,
     updateItemStatus,
     removeItem

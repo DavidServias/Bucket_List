@@ -1,4 +1,4 @@
-const { User, AccountSummary } = require('../models/user');
+import { User, AccountSummary } from '../models/user.js';
 
 // gets all users
 // triggered by route: GET /users/
@@ -234,7 +234,7 @@ const get_user_by_identifier = (req, res) => {
 };
 
 
-module.exports = {
+export default {
     get_all_users,
     get_user_by_id,
     getFriends,

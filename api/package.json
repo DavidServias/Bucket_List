@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Write your bucket list.",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

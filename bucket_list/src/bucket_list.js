@@ -36,19 +36,9 @@ export class BucketList extends React.Component {
     }
     render(){
         return (
-/* <ProfileView 
-            profileName = {this.state.user['profile_name']}
-            status = {this.state.user['status']}
-            bucketListData ={this.state.user['bucket_list']} 
-            friendsListData = {this.state.user['friends_list']}
-            userIdentifier = {this.state.user['identifier']}
-            lookUpUser = {this.lookUpUser}
-            refreshUserData = {this.refreshUserData}
-            setUserToNull = {this.setUserToNull}
-          />  */
 
             <div id="bucket-list-container">
-            <h1>{this.props.profileName}'s Bucket List</h1>
+            <h3>{this.props.profileName}'s Bucket List</h3>
             <div className="font-weight-600 mb-3 text-muted mt-n1">
                 Here is what {this.props.profileName} hopes to experience during this life: 
                     </div>

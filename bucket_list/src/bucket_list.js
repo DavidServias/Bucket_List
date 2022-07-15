@@ -1,6 +1,7 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './css/profile.css';
+// import './css/profile.css';
+// import './css/profile_view.css';
 //import Box from '@mui/material/Box';
 import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
@@ -11,6 +12,18 @@ import AddIcon from '@mui/icons-material/Add';
 import InputAdornment from '@mui/material/InputAdornment';
 import Item from './item';
 import api from './apiCalls';
+import { styled } from '@mui/material/styles';
+import Paper from '@mui/material/Paper';
+
+
+
+const Decorator = styled(Paper)(({ theme }) => ({
+    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#a7ce3b',
+    ...theme.typography.body2,
+    padding: theme.spacing(1),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+  }));
 
 
 export class BucketList extends React.Component {
@@ -36,12 +49,9 @@ export class BucketList extends React.Component {
     }
     render(){
         return (
-
+            <Decorator>
             <div id="bucket-list-container">
-            <h3>{this.props.profileName}'s Bucket List</h3>
-            <div className="font-weight-600 mb-3 text-muted mt-n1">
-                Here is what {this.props.profileName} hopes to experience during this life: 
-                    </div>
+            <div className="heading">{this.props.profileName}'s Bucket List</div>
             <Divider />
             <nav aria-label="secondary mailbox folders">
                 <List>
@@ -84,6 +94,7 @@ export class BucketList extends React.Component {
               
             </nav>
             </div>
+            </Decorator>
             // </Box>
         );
     }

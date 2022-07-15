@@ -9,6 +9,7 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import Divider from '@mui/material/Divider';
 import ListItemText from '@mui/material/ListItemText';
+import ListItemButton from '@mui/material/ListItemButton';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
@@ -16,7 +17,7 @@ import { deepOrange } from '@mui/material/colors';
 import IconButton from '@mui/material/IconButton';
 import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
-
+import Decorator from './card_decorator.js';
 
 export class PeopleList extends Component {
     constructor(props) {
@@ -41,14 +42,14 @@ export class PeopleList extends Component {
       
     }
 
-    followedAccounts() {
+    //followedAccounts() {
       // let followedAccounts = [];
       // let summary = {};
       // for (let i = 0; i < this.props.friendsListData.length; i += 1) {
       //   summary['account_summary_name']
       // }
 
-    }
+    //}
     
 
     async removeAccount(accountIdentifier)  {
@@ -82,33 +83,45 @@ export class PeopleList extends Component {
         // console.log(this.props.friendsListData);//PROBLEM only Identifier included
      
         return (
-            <Box sx={{ width: '100%', /*maxWidth: 360, */bgcolor: 'background.paper' }}>
-              <div id="followed-list-container">
-              <div className="font-weight-600 mb-3 text-muted mt-n1">
-                  Bucket Lists You Follow: 
-              </div>
-              <Divider />
-              <nav aria-label="secondary mailbox folders">
-                <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-                  <FollowedList 
-                    data={this.props.friendsListData}
-                    refreshUserdata = {this.props.refreshUserdata}
-                    removeAccount = {this.removeAccount}
-                    userIdentifier = {this.props.userIdentifier}
+            // <Box sx={{ width: '100%', /*maxWidth: 360, */bgcolor: 'background.paper' }}>
+             
+                <Decorator>
+                   <div id="people-list-container">
+                  <div id="people_list">
+                    <div className="heading">More BucketLists</div>
+                  <div className="heading2">Bucket Lists You Follow: </div>
+                  
+                  {/* <nav aria-label="secondary mailbox folders"> */}
+                    <List sx={{  }}>
+                      <FollowedList 
+                        data={this.props.friendsListData}
+                        refreshUserdata = {this.props.refreshUserdata}
+                        removeAccount = {this.removeAccount}
+                        userIdentifier = {this.props.userIdentifier}
+                      />
+                    </List>  
+                    <Divider />
+                  {/* </nav> */}
+                  <div className="heading2">
+                      BucketList Suggestions: 
+                  </div>
+
+    
+                  <SuggestionsList 
+                      userIdentifier = {this.props.userIdentifier}
+                      refreshUserdata = {this.props.refreshUserdata}
+                      followAccount = {this.followAccount}
+                      data = {this.state.suggestedAccounts}
                   />
-                </List>
-              </nav>
-              <div className="font-weight-600 mb-3 text-muted mt-n1">
-                  BucketList Suggestions: 
-              </div>
-                <SuggestionsList 
-                  userIdentifier = {this.props.userIdentifier}
-                  refreshUserdata = {this.props.refreshUserdata}
-                  followAccount = {this.followAccount}
-                  data = {this.state.suggestedAccounts}
-                />
-              </div>
-            </Box>
+            
+                   
+                  </div>
+                  </div>
+                </Decorator>
+
+            
+              
+            // </Box>
         );
     }
 }
@@ -158,7 +171,9 @@ function SuggestionsList(props) {
   // console.log(props.data);
   return (
     <div>
-        { !props.data ? <h1>Loading</h1>:
+     
+      <List>
+      { !props.data ? <h1>Loading</h1>:
           props.data.map(function (friend) {
         
           // console.log("suggestedList component:");
@@ -182,7 +197,11 @@ function SuggestionsList(props) {
             
           
           );
-        }) }
+        }) 
+        }
+        
+
+      </List>
         
       </div>
     );
@@ -220,20 +239,23 @@ function AccountSummary(props) {
 
   return (
     
+   
+
     <ListItem alignItems="flex-start" 
-            secondaryAction={
-                <IconButton 
-                  edge="end" 
-                  aria-label="person_remove"
-                  onClick={handleClick}
-                >
-                  {props.following ? 
-                    <PersonRemoveIcon/>: 
-                    <PersonAddIcon/>
-                  }
-                </IconButton>
-              }
+        secondaryAction={
+            <IconButton 
+              edge="end" 
+              aria-label="person_remove"
+              onClick={handleClick}
             >
+              {props.following ? 
+                <PersonRemoveIcon/>: 
+                <PersonAddIcon/>
+              }
+            </IconButton>
+          }
+        >
+          <ListItemButton>
               <ListItemAvatar>
                 <Avatar sx={{bgcolor: deepOrange[500]}} >{props.accountSummaryName[0]}</Avatar>
               </ListItemAvatar>
@@ -253,6 +275,7 @@ function AccountSummary(props) {
                   </React.Fragment>
                 }
               />
+              </ListItemButton>
             </ListItem>
 
   );

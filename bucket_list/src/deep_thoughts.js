@@ -1,27 +1,19 @@
 import React from 'react';
-//import 'bootstrap/dist/css/bootstrap.min.css';
-import './css/profile.css';
-//import Box from '@mui/material/Box';
 import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
-
 import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
 import AddIcon from '@mui/icons-material/Add';
 import InputAdornment from '@mui/material/InputAdornment';
-//import Item from './item';
 import api from './apiCalls';
-//import React from 'react';
-//import 'bootstrap/dist/css/bootstrap.min.css';
 import { ReactSVG } from 'react-svg';
-import './css/profile.css';
+import './css/profile_view.css';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CheckBox from '@mui/material/Checkbox';
-//import api from './apiCalls';
-
+import Decorator from './card_decorator.js';
 
 
 export class DeepThoughts extends React.Component {
@@ -42,16 +34,13 @@ export class DeepThoughts extends React.Component {
         this.props.refreshUserData(this.props.userIdentifier);
 
     }
-    // onSubmit() {
-    //     console.log("onSubmit()");
-    // }
+   
     render(){
         return (
-
+            <Decorator>
             <div id="deep-thought-container">
-            <h3>{this.props.profileName}'s Deep Thoughts</h3>
+            <div className="heading">{this.props.profileName}'s Deep Thoughts</div>
             <Divider />
-            <nav aria-label="secondary mailbox folders">
                 <List>
                 {this.props.deepThoughts.map(function (thought) {
                     //let userId = this.props.userId;
@@ -90,8 +79,11 @@ export class DeepThoughts extends React.Component {
                     onChange={this.handleChange}
                 />
               
-            </nav>
+            {/* </nav> */}
             </div>
+
+            </Decorator>
+            
             // </Box>
         );
     }

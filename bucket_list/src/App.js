@@ -75,13 +75,7 @@ class App extends React.Component  {
   }
 
   render() {
-    // if(this.state.showProfile) {
-    //   console.log("friendsList from App: ########################################");
-    //   console.log(this.state.user.friends_list);
-    // } 
-    // else (
-    //   console.log("profile ")
-    // )
+
     
     return (
       <div className="App">

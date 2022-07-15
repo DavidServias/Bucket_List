@@ -1,55 +1,39 @@
 import React from 'react';
 import './css/profile_view.css';
+import MyAppBar from './app_bar.js';
 import BucketList from './bucket_list';
 import PeopleList from './people_list';
 import AboutMe from './about_me';
 import Box from '@mui/material/Box';
 import DeepThoughts from './deep_thoughts';
-import { styled } from '@mui/material/styles';
-import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
+import Decorator from './card_decorator.js';
 
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: 'center',
-  color: theme.palette.text.secondary,
-}));
 
 class ProfileView extends React.Component {
     constructor(props){
         super(props);
     }
-    
-    render(){
-        
+    render(){  
         return (
-            <Box  sx={{ height: '500px' }}>
-            {/* <Grid container spacing={1}> */}
-                {/* sidebar */}
-                {/* <Grid item sm={2} xs={12} order={{sm:0, xs: 1}} sx={{height:'500px'}} >
-                <Item sx={{backgroundColor: "blue"}} >Sidebar</Item>
-                </Grid> */}
-                {/* main panel */}
-                {/* <Grid item sm={12} xs={12} order={{md:1, xs: 0}}> */}
-                    <Grid container                  
-                        spacing={1} 
-                        justifyContent="space-between"
-                        
+            <Box  sx={{ width: '100%', backgroundColor:'#577590' }}>
+                    <MyAppBar setUserToNull = {this.props.setUserToNull}/>
+                    <Grid container 
+                        spacing={1}                 
+                        justifyContent="space-around"
+                        alignItems="center"
                     >
-                        {/* header */}
-                        
-                        <Grid item xs={12} alignItems="center" >
-                        </Grid>
-                        <Grid item sm={2} xs={12}>
+                        <Grid item xs={12} sm={3} >
                             <AboutMe 
                                 status = {this.props.status}
                                 userIdentifier = {this.props.userIdentifier}
                                 refreshUserData = {this.props.refreshUserData}
                             />
+                        
+                            
                         </Grid>
-                        <Grid item sm={10} xs={12}>
+                        <Grid item xs={12} sm={9}   >
+                        {/* <Decorator>Test</Decorator>  */}
                         <BucketList 
                             userIdentifier = {this.props.userIdentifier}
                             bucketListData = {this.props.bucketListData}
@@ -58,7 +42,8 @@ class ProfileView extends React.Component {
                             
                         />  
                         </Grid>
-                        <Grid item sm={10} xs={12}>
+                        <Grid item xs={12} sm={9}   >
+                           {/* <Decorator>Test</Decorator> */}
                             <DeepThoughts 
                                 userIdentifier = {this.props.userIdentifier}
                                 deepThoughts = {this.props.deepThoughts}
@@ -67,7 +52,8 @@ class ProfileView extends React.Component {
                            
                             />
                         </Grid>
-                        <Grid item sm={2} xs={12}>
+                        <Grid item sm={3} xs={12}>
+                        {/* <Decorator>Test</Decorator> */}
                         <PeopleList 
                             userIdentifier = {this.props.userIdentifier}
                             friendsListData = {this.props.friendsListData}
@@ -77,15 +63,9 @@ class ProfileView extends React.Component {
                         />  
                         </Grid>
                     </Grid>
-                
-                {/* </Grid> */}
-                
-            {/* </Grid>  */}
-            
-        
             </Box>
         );
-  }
+    }
     
 }
 

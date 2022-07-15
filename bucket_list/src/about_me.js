@@ -11,6 +11,21 @@ import InputAdornment from '@mui/material/InputAdornment';
 import IconButton from '@mui/material/IconButton';
 import AddIcon from '@mui/icons-material/Add';
 import api from './apiCalls';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import { Container } from '@mui/system';
+// import { styled } from '@mui/material/styles';
+// import Paper from '@mui/material/Paper';
+import Decorator from './card_decorator.js';
+
+
+// const Item = styled(Paper)(({ theme }) => ({
+//     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#a7ce3b',
+//     ...theme.typography.body2,
+//     padding: theme.spacing(1),
+//     textAlign: 'center',
+//     color: theme.palette.text.secondary,
+//   }));
 
 
 function AboutMe(props) {
@@ -41,37 +56,43 @@ function AboutMe(props) {
     };
 
     return (
-        <div id="about-me-container">
-            
-            <img 
-                alt="Profile Picture" 
-                src={ProfilePic}
-                
-            />
-            <div className="font-weight-600 mb-3 text-muted mt-n1">
-                <p>Status:</p>
-                <p>"{props.status}"</p> 
-            </div>
+        <Decorator>
+<Grid container id="about-me-container">
+            <Grid item xs={12}>
+                <Container maxWidth="xs">
+                    <img 
+                        alt="Profile Picture" 
+                        src={ProfilePic}    
+                    />
+                </Container>
+            </Grid>
+            <Grid item xs={12}>
+                <div className="font-weight-600 mb-3 text-muted mt-n1">
+                    <p>Status:</p>
+                    <p>"{props.status}"</p> 
+                </div>
+            </Grid>
+            <Grid item xs={12}>
             {updatingStatus ? 
                 
                 <ClickAwayListener onClickAway={handleClickAway}>
                     <TextField
 
-                    fullWidth 
-                    margin="none"
-                    label={"Update Status"}
-                    value={newStatus} 
-                    placeholder={updateStatus} 
-                    onChange={handleChange}
-                    InputProps={{
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <IconButton>
-					            <AddIcon onClick = {updateStatus}/>
-				            </IconButton>
-                          </InputAdornment>
-                        ),
-                    }}
+                        fullWidth 
+                        margin="none"
+                        label={"Update Status"}
+                        value={newStatus} 
+                        placeholder={updateStatus} 
+                        onChange={handleChange}
+                        InputProps={{
+                            endAdornment: (
+                            <InputAdornment position="end">
+                                <IconButton>
+                                    <AddIcon onClick = {updateStatus}/>
+                                </IconButton>
+                            </InputAdornment>
+                            ),
+                        }}
                     />
                 </ClickAwayListener>
                 
@@ -79,11 +100,16 @@ function AboutMe(props) {
                 <Button variant="outlined" 
                     startIcon={<EditIcon />}
                     onClick = {toggleUpdatingState}
+                   sx={{backgroundColor: "#F8961E"}}
                 >Update Status</Button>
-            }           
+            }
+            </Grid>
+        </Grid>
+        </Decorator>
+        
+        // <div id="about-me-container">
             
         
-        </div>
         
 
     );

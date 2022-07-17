@@ -7,6 +7,13 @@ import Button from '@mui/material/Button';
 require('dotenv').config();
 const jwt  = require('jsonwebtoken');
 
+
+//PROPS
+// user
+// showLogin
+// showProfile
+// showCreateAccount
+// guestView
 export default class LoginScreen extends Component {
     constructor(props){
         super(props);
@@ -36,10 +43,12 @@ export default class LoginScreen extends Component {
        );
      }
 
+     // Called when "Create Profile" button is clicked
      handleCreateAccount() {
         let newUserData = {
             "google_verified": false,//maybe backend doesn't need this?
-            "user_identifier" : this.generateIdentifier()
+            "user_identifier" : this.generateIdentifier(),
+            
         };
         this.props.showCreateProfile(newUserData);
      }
@@ -65,7 +74,8 @@ export default class LoginScreen extends Component {
         // this user, and show profile view.
         } else {
             console.log("profile data found");
-            this.props.showProfileView(profileData);
+            this.props.showProfileView(profileData, false);
+            // change true to false after guestview is working
 
         }
     }

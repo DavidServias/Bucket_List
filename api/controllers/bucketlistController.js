@@ -12,7 +12,7 @@ import { User, Item } from '../models/user.js';
 const addItem = async (req, res) => {
     try {
         const userIdentifier = req.params.user_identifier;
-        let filter = {"identifier": userIdentifier};
+        let filter = {"user_identifier": userIdentifier};
         let newItemInfo = req.body;
         newItemInfo['completed'] = "false";
         let newItem = Item(newItemInfo);

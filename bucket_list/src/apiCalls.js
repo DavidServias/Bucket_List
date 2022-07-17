@@ -135,6 +135,8 @@ async function addBucketListItem(userIdentifier, newItem) {
         headers: {'Content-Type':'application/json;charset=utf-8'},
         body: reqBody
     };
+    console.log("url: " + url);
+    console.log("request body " + reqBody);
     var response= await fetch(url, options);
     var data = await response.json();
     

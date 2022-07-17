@@ -7,9 +7,23 @@ import AboutMe from './about_me';
 import Box from '@mui/material/Box';
 import DeepThoughts from './deep_thoughts';
 import Grid from '@mui/material/Grid';
-import Decorator from './card_decorator.js';
+//import Decorator from './card_decorator.js';
 
+//PROPS:
+// profileName
+// status
+// bucketListData 
+// deepThoughts
+// friendsListData
+// userIdentifier
+// lookUpUser
+// refreshUserData
+// setUserToNull
+// Boolean: guestView 
+// viewUserProfile()
+// viewGuestProfile()
 
+// visitProfile()
 class ProfileView extends React.Component {
     constructor(props){
         super(props);
@@ -24,42 +38,50 @@ class ProfileView extends React.Component {
                         alignItems="center"
                     >
                         <Grid item xs={12} sm={3} >
-                            <AboutMe 
-                                status = {this.props.status}
-                                userIdentifier = {this.props.userIdentifier}
-                                refreshUserData = {this.props.refreshUserData}
-                            />
-                        
-                            
-                        </Grid>
-                        <Grid item xs={12} sm={9}   >
-                        {/* <Decorator>Test</Decorator>  */}
-                        <BucketList 
-                            userIdentifier = {this.props.userIdentifier}
-                            bucketListData = {this.props.bucketListData}
+                        <AboutMe 
+                            status = {this.props.data.status}
+                            profileName = {this.props.data.profile_name}
+                            userIdentifier = {this.props.data.user_identifier}
                             refreshUserData = {this.props.refreshUserData}
-                            profileName = {this.props.profileName}
-                            
+                            guestView = {this.props.guestView}
+                            viewUserProfile = {this.props.viewUserProfile}
                         />  
                         </Grid>
-                        <Grid item xs={12} sm={9}   >
-                           {/* <Decorator>Test</Decorator> */}
-                            <DeepThoughts 
-                                userIdentifier = {this.props.userIdentifier}
-                                deepThoughts = {this.props.deepThoughts}
-                                refreshUserData = {this.props.refreshUserData}
-                                profileName = {this.props.profileName}
-                           
-                            />
+                        <Grid item 
+                            xs={12} 
+                            sm={(this.props.guestView) ? 3: 9}   
+                        >
+                        <BucketList 
+                            userIdentifier = {this.props.data.user_identifier}
+                            bucketList = {this.props.data.bucket_list}
+                            refreshUserData = {this.props.refreshUserData}
+                            profileName = {this.props.data.profile_name}
+                            guestView = {this.props.guestView}
+                        />  
+                        </Grid>
+                        <Grid item 
+                            xs={12} 
+                            sm={this.props.guestView ? 3: 9}   
+                        >
+                        <DeepThoughts 
+                            userIdentifier = {this.props.data.user_identifier}
+                            deepThoughts = {this.props.data.deep_thoughts}
+                            refreshUserData = {this.props.refreshUserData}
+                            profileName = {this.props.data.profile_name}
+                            guestView = {this.props.guestView}
+                        
+                        />
                         </Grid>
                         <Grid item sm={3} xs={12}>
                         {/* <Decorator>Test</Decorator> */}
                         <PeopleList 
-                            userIdentifier = {this.props.userIdentifier}
-                            friendsListData = {this.props.friendsListData}
+                            userIdentifier = {this.props.data.user_identifier}
+                            friendsListData = {this.props.data.friends_list}
                             refreshUserData = {this.props.refreshUserData}
-                            profileName = {this.props.profileName}
-                            test = "test"
+                            profileName = {this.props.data.profile_name}
+                            guestView = {this.props.guestView}
+                            // visitProfile = {this.props.visitProfile}
+                            viewGuestProfile = {this.props.viewGuestProfile}
                         />  
                         </Grid>
                     </Grid>

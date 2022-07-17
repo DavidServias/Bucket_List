@@ -33,7 +33,7 @@ const addThought = async (req, res) => {
     console.log("addThought (controller)");
     try {
         const userIdentifier = req.params.user_identifier;
-        let filter = {"identifier": userIdentifier};
+        let filter = {"user_identifier": userIdentifier};
         
         let newThought = Thought(req.body);
         const update = {

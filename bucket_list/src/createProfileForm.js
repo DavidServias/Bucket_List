@@ -27,6 +27,8 @@
     userData['profile_name'] = this.state.profileName;
     userData['status'] = this.state.status;
     userData['password'] = this.state.password;
+    // userData['bucket_list'] = [];
+    // userData['deep_thoughts'] = [];
     //test
     console.log("user data sent to create new profile:");
     console.log(userData);
@@ -35,17 +37,6 @@
     return newProfile;
   }
 
-  // generateIdentifier() {
-  //   var chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  //   var identifierLength = 12;
-  //   var identifier = "";
-  //   for (var i = 0; i <= identifierLength; i++) {
-  //     var randomNumber = Math.floor(Math.random() * chars.length);
-  //     identifier += chars.substring(randomNumber, randomNumber +1);
-  //    }
-
-  //   return identifier;
-  // }
 
   handleChange(e) {
     this.setState({ [e.currentTarget.id]: e.currentTarget.value });

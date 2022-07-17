@@ -16,6 +16,12 @@ import CheckBox from '@mui/material/Checkbox';
 import Decorator from './card_decorator.js';
 
 
+//PROPS
+// userIdentifier
+// deepThoughts 
+// refreshUserData 
+// profileName 
+// guestView 
 export class DeepThoughts extends React.Component {
     constructor(props) {
         super(props);
@@ -24,15 +30,16 @@ export class DeepThoughts extends React.Component {
         this.state = {newThought: ""};
         this.addThoughtPlaceholderText = "Add a deep thought.";
     }
+    
     handleChange(event) {
         this.setState({newThought: event.target.value});
     }
+
     async addThought(){
         console.log("addThought");
         await api.addThought(this.props.userIdentifier, this.state.newThought);
         this.setState({newThought: ""});
         this.props.refreshUserData(this.props.userIdentifier);
-
     }
    
     render(){
@@ -43,15 +50,15 @@ export class DeepThoughts extends React.Component {
             <Divider />
                 <List>
                 {this.props.deepThoughts.map(function (thought) {
-                    //let userId = this.props.userId;
                     return (
-                        <Thought item_text={thought['text']} 
-                              userIdentifier={this.props.userIdentifier}
-                              thought_id={thought['_id']}
-                              key = {thought['_id']}
-                              refreshUserData= {this.props.refreshUserData}
-                        
-                              />
+                        <Thought 
+                            item_text = {thought['text']} 
+                            userIdentifier = {this.props.userIdentifier}
+                            thought_id = {thought['_id']}
+                            key = {thought['_id']}
+                            refreshUserData = {this.props.refreshUserData}
+                            guestView = {this.props.guestView}
+                        />
                     );
                 // reminder for me: the "this" argument has to be included
                 // at the end so that the call back has access to the outer
@@ -59,8 +66,10 @@ export class DeepThoughts extends React.Component {
                 }, this)}
                 </List>
               
+                {this.props.guestView ? null:
+                // render field for more items, if user
+                // is viewing their own profile.
                 <TextField
-
                     fullWidth 
                     margin="none"
                     label={this.addThoughtPlaceholderText}
@@ -78,23 +87,27 @@ export class DeepThoughts extends React.Component {
                       
                     onChange={this.handleChange}
                 />
+                }
               
-            {/* </nav> */}
             </div>
 
             </Decorator>
             
-            // </Box>
         );
     }
 }
 
-
+//PROPS
+//item_text  
+// userIdentifier 
+// thought_id
+// key 
+// refreshUserData 
+// guestView
 class Thought  extends React.Component {
     constructor(props) {
         super(props);
         this.removeThought = this.removeThought.bind(this);
-        // this.updateStatus = this.updateStatus.bind(this);
     };
 
     async removeThought() {
@@ -103,39 +116,27 @@ class Thought  extends React.Component {
         this.props.refreshUserData(this.props.userIdentifier);
     };
 
-    // async updateStatus() {
-    //     console.log("updateStatus()");
-    //     await api.updateItemStatus(
-    //         this.props.userIdentifier, 
-    //         this.props.item_id, 
-    //         this.props.completed
-    //     );
-    //     this.props.refreshUserData(this.props.userIdentifier);
-    // };
-
-    // handleCheck() {
-    //     console.log("handleCheck");
-    // };
-
     render() {
         let textStyleOveride = this.props.completed===true ? 
             'line-through' : ''; 
         const label = { inputProps: { "aria-label": "Checkbox demo" } };
         return (
             <ListItem disablePadding>
-                {/* <ReactSVG className="bucket-icon" 
-                    src="bucket-fill.svg" /> */}
                 <ListItemButton component="a" href="#">
                     <ListItemText primary = {this.props.item_text}
                         sx={{textDecoration:textStyleOveride}} />
                 </ListItemButton>
-               
+                
+                {this.props.guestView ? null:
+                //render delete icon, if user is looking at they're
+                // own profile
                 <CheckBox {...label} 
                     checked={this.props.complete}
                     icon={<DeleteIcon />}
                     onChange={this.removeThought}
                     checkedIcon={<DeleteIcon />}
-                    />  
+                /> 
+                } 
             </ListItem>
            
         );

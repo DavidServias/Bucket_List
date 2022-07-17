@@ -39,21 +39,23 @@ export class BucketList extends React.Component {
         this.state = {newItem: ""};
         this.addItemPlaceholderText = "Add an Item to Your Bucket List";
     }
+
     handleChange(event) {
         this.setState({newItem: event.target.value});
     }
+
     async addNewItem(){
         console.log("addNewItem()")
         await api.addBucketListItem(this.props.userIdentifier, this.state.newItem);
         this.setState({newItem: ""});
         this.props.refreshUserData(this.props.userIdentifier);
+    }
 
-    }
-    onSubmit() {
-        console.log("onSubmit()");
-    }
-    render(){
-        console.log(this.props.userIdentifier);
+    // onSubmit() {
+    //     console.log("onSubmit()");
+    // }
+
+    render() {
         return (
             <Decorator>
             <div id="bucket-list-container">
@@ -61,8 +63,6 @@ export class BucketList extends React.Component {
             <Divider />
             <nav aria-label="secondary mailbox folders">
                 <List>
-                    {/* test */}
-                    <p>{this.props.userIdentifier}</p>
                 {this.props.bucketList.map(function (item) {
                     return (
                         <Item item_text={item['text']}
@@ -173,12 +173,9 @@ export class Item extends React.Component {
                     </div>
                 }
                 
-            </ListItem>
-           
+            </ListItem>     
         );
     };
 }
-
-
 
 export default BucketList;

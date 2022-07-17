@@ -15,9 +15,12 @@ import api from './apiCalls';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import { Container } from '@mui/system';
+import Avatar from '@mui/material/Avatar';
 // import { styled } from '@mui/material/styles';
 // import Paper from '@mui/material/Paper';
 import Decorator from './card_decorator.js';
+import getIconColor from './getIconColor.js';
+
 
 
 //PROPS:
@@ -27,26 +30,34 @@ import Decorator from './card_decorator.js';
 // guestView
 // viewUserProfile()
 function AboutMe(props) {
-    // const [updatingStatus, setUpdatingStatus] = useState(false);
-    // const [newStatus, setNewStatus] = useState("");
-
     function backToMyProfile() {
         props.viewUserProfile();
     };
 
     return (
         <Decorator>
-        <Grid container id="about-me-container">
+        <Grid container 
+            id="about-me-container" 
+            >
+
             <Grid item xs={12}>
                 <div className="heading">Viewing {props.profileName}'s Profile:</div>    
             </Grid>
             <Grid item xs={12}>
-                <Container maxWidth="xs">
-                    <img 
+                <Container >  
+                <Avatar 
+                    sx={{bgcolor: getIconColor(props.profileName), 
+                    margin: "auto",
+                    width: 72, 
+                    height: 72     
+                }}
+                    >{props.profileName[0]}</Avatar>
+                    {/* maybe eventually */}
+                    {/* <img 
                         alt="Profile Picture" 
                         src={ProfilePic}    
-                    />
-                </Container>
+                    /> */}
+                 </Container> 
             </Grid>
             <Grid item xs={12}>
                 <div className="font-weight-600 mb-3 text-muted mt-n1">
@@ -82,7 +93,6 @@ function AboutMe(props) {
 // userIdentifier
 // function refreshUserIdentifier
 function StatusUpdater(props) {
-
     const [updatingStatus, setUpdatingStatus] = useState(false);
     const [newStatus, setNewStatus] = useState("");
 

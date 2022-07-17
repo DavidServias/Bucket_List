@@ -55,7 +55,7 @@ const removeThought = async (req, res) => {
     try {
         const userIdentifier = req.params.user_identifier;
         const thoughtId = req.params.thought_id;
-        let user = await User.findOne({"identifier": userIdentifier});
+        let user = await User.findOne({"user_identifier": userIdentifier});
         user.deep_thoughts.id(thoughtId).remove();
         user.save(function (err) {
             if (err) return handleError(err)

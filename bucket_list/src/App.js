@@ -2,7 +2,6 @@ import React from 'react';
 import './css/App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ProfileView from './profile_view';
-//import MyProfile from './temp-profile.js';
 import api from './apiCalls';
 import LoginScreen from './login';
 import CreateProfileForm from './createProfileForm';
@@ -19,7 +18,6 @@ class App extends React.Component  {
       showLogin: true,
       showProfile: false,
       showCreateAccount: false,
-      test:"yourMom"
     };
     this.lookUpUser = this.lookUpUser.bind(this);
     this.refreshUserData = this.refreshUserData.bind(this);
@@ -29,7 +27,7 @@ class App extends React.Component  {
     this.showProfileView = this.showProfileView.bind(this);
     this.viewUserProfile = this.viewUserProfile.bind(this);
     this.viewGuestProfile = this.viewGuestProfile.bind(this);
-   // this.visitProfile = this.visitProfile.bind(this);
+
   }
 
   showCreateProfile(newUserProfileData) {
@@ -50,8 +48,8 @@ class App extends React.Component  {
       guestView: false
     });
   }
+
   showProfileView(userProfileData, guestView) {
-    console.log("DATA: ++++++++++:" + JSON.stringify(userProfileData));
     this.setState({
       user: userProfileData,
       showLogin:false,
@@ -60,8 +58,7 @@ class App extends React.Component  {
       guestView: guestView
     });
   }
-
-  // Should maybe move this to Login
+ 
   async lookUpUser(userIdentifier) {
     let dataFromUser = await api.getUserByIdentifier(userIdentifier);
     console.log("data:" + dataFromUser);
@@ -108,7 +105,6 @@ class App extends React.Component  {
           showProfile: true,
           showCreateAccount: false
       });
-      //this.refreshUserData(this.state.profileBeingVisited);
   }
 
   render() {

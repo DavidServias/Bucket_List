@@ -1,9 +1,6 @@
 import React from 'react';
-// import { useState } from "react";
-// import { useEffect } from 'react';
 import { Component } from 'react';
 import './css/profile.css';
-//import Box from '@mui/material/Box';
 import api from './apiCalls';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -13,11 +10,15 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
-import { deepOrange } from '@mui/material/colors';
 import IconButton from '@mui/material/IconButton';
 import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import Decorator from './card_decorator.js';
+import getIconColor from './getIconColor.js';
+import Modal from '@mui/material/Modal';
+//import AccountModal from './account_modal.js';
+import Box from '@mui/material/Box';
+//import Button from '@mui/material/Button';
 
 
 // PROPS:
@@ -80,7 +81,6 @@ export class PeopleList extends Component {
                 removeAccount = {this.removeAccount}
                 userIdentifier = {this.props.userIdentifier}
                 guestView = {this.props.guestView}
-                // visitProfile = {this.props.visitProfile}
                 viewGuestProfile = {this.props.viewGuestProfile}
               />
             </List>  
@@ -98,6 +98,7 @@ export class PeopleList extends Component {
                     refreshUserdata = {this.props.refreshUserdata}
                     followAccount = {this.followAccount}
                     data = {this.state.suggestedAccounts}
+                    
                 />
             </div>
             }
@@ -137,7 +138,6 @@ function FollowedList(props) {
               removeAccount = {props.removeAccount}
               friendsListData = {props.friendsListData}
               guestView = {props.guestView}
-              // visitProfile = {props.visitProfile}
               viewGuestProfile = {props.viewGuestProfile}
             />
 
@@ -165,14 +165,12 @@ function SuggestionsList(props) {
               refreshUserdata = {props.refreshUserdata}
               followAccount = {props.followAccount}
               userIdentifier = {props.userIdentifier}
-              // visitProfile = {props.visitProfile}
             /> 
           
           );
         }) 
         }
         
-
       </List>
         
       </div>
@@ -193,31 +191,11 @@ function SuggestionsList(props) {
 // guestView 
 //  visitGuestProfile()
 function AccountSummary(props) {
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
-  
-  function hashCode(str) { // java String#hashCode
-    var hash = 0;
-    for (var i = 0; i < str.length; i++) {
-       hash = str.charCodeAt(i) + ((hash << 5) - hash);
-    }
-    return hash;
-  } 
-  
-  function intToRGB(i){
-    var c = (i & 0x00FFFFFF)
-        .toString(16)
-        .toUpperCase();
-  
-    return "00000".substring(0, 6 - c.length) + c;
-  }
-
-  let iconColor = intToRGB(hashCode(props.accountSummaryName) );
-  iconColor = "#" + iconColor;
-
-  
-  
   const handleClick = function() {
-    console.log(props.accountIdentifier);//undefined
     const data = {
       account_summary_name:props.accountSummaryName,
       account_summary_status: props.accountSummaryStatus,
@@ -233,29 +211,38 @@ function AccountSummary(props) {
     console.log("visiting " + props.accountIdentifier );
     props.viewGuestProfile(props.accountIdentifier);
   }
+
+  const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+  };
+  
   
   return (
-    
+    <div>
     <ListItem alignItems="flex-start" 
-        secondaryAction= 
-            
-            {props.guestView ? "": 
-            <IconButton 
-              edge="end" 
-              aria-label="person_remove"
-              onClick={handleClick}
-            >
-              {props.following ? 
-                <PersonRemoveIcon/>: 
-                <PersonAddIcon/>
-              }
-            </IconButton>
-          }
-        >
-          
-          <ListItemButton onClick={visitProfile}>
+        secondaryAction=       
+            {props.guestView ? "": <IconButton 
+                                      edge="end" 
+                                      aria-label="person_remove"
+                                      onClick={handleClick}
+                                    >
+                                    {props.following ? <PersonRemoveIcon/>: 
+                                      <PersonAddIcon/> }
+                                    </IconButton>
+            }
+    >   
+    
+          <ListItemButton onClick={props.following ? visitProfile : handleOpen}>
               <ListItemAvatar>
-                <Avatar sx={{bgcolor: iconColor /*deepOrange[500]*/}} >{props.accountSummaryName[0]}</Avatar>
+                <Avatar sx={{bgcolor: getIconColor(props.accountSummaryName) }} >{props.accountSummaryName[0]}</Avatar>
               </ListItemAvatar>
               <ListItemText
                 primary={props.accountSummaryName}
@@ -274,11 +261,66 @@ function AccountSummary(props) {
                 }
               />
               </ListItemButton>
-            </ListItem>
+             
+         
+     
+
+ <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+      >
+        
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            <ListItemAvatar>
+              <Avatar 
+                sx={{bgcolor: getIconColor(props.accountSummaryName)}}
+              >{props.accountSummaryName[0]}</Avatar>
+            </ListItemAvatar>
+            {props.accountSummaryName}
+          </Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+          <div>"{props.accountSummaryStatus}"</div>
+          <div>Follow {props.accountSummaryName} to see more.</div>
+          </Typography>
+        </Box> 
+
+      </Modal> 
+
+      </ListItem>
+
+      </div>
 
   );
 }
 
-
+function AccountSummaryContent(props) {
+  return (
+      <div>
+        <ListItemAvatar>
+          <Avatar sx={{bgcolor: getIconColor(props.accountSummaryName) /*deepOrange[500]*/}} >{props.accountSummaryName[0]}</Avatar>
+            </ListItemAvatar>
+            <ListItemText
+              primary={props.accountSummaryName}
+              secondary={
+                <React.Fragment>
+                  <Typography
+                    sx={{ display: 'inline'}}
+                    component="span"
+                    variant="body2"
+                    color="text.primary"
+                  >
+                    Status: 
+                  </Typography>
+                  "{props.accountSummaryStatus}"
+                </React.Fragment>
+              }
+            />
+      </div>
+      
+  );
+};
 
 export default PeopleList;

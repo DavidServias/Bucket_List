@@ -7,7 +7,6 @@ import AboutMe from './about_me';
 import Box from '@mui/material/Box';
 import DeepThoughts from './deep_thoughts';
 import Grid from '@mui/material/Grid';
-//import Decorator from './card_decorator.js';
 
 //PROPS:
 // profileName
@@ -61,7 +60,7 @@ class ProfileView extends React.Component {
                         </Grid>
                         <Grid item 
                             xs={12} 
-                            sm={this.props.guestView ? 3: 9}   
+                            sm={this.props.guestView ? 3: 7}   
                         >
                         <DeepThoughts 
                             userIdentifier = {this.props.data.user_identifier}
@@ -72,15 +71,16 @@ class ProfileView extends React.Component {
                         
                         />
                         </Grid>
-                        <Grid item sm={3} xs={12}>
-                        {/* <Decorator>Test</Decorator> */}
+                        <Grid item 
+                            sm={this.props.guestView ? 3: 5}   
+                            xs={12}
+                        >
                         <PeopleList 
                             userIdentifier = {this.props.data.user_identifier}
                             friendsListData = {this.props.data.friends_list}
                             refreshUserData = {this.props.refreshUserData}
                             profileName = {this.props.data.profile_name}
                             guestView = {this.props.guestView}
-                            // visitProfile = {this.props.visitProfile}
                             viewGuestProfile = {this.props.viewGuestProfile}
                         />  
                         </Grid>

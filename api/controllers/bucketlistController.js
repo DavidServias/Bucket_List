@@ -36,11 +36,26 @@ const addItem = async (req, res) => {
 // responds to route: '/:userId/:itemId/item-status' 
 // TODO: respond to errors
 const updateItemStatus = async (req, res) => {
+    // let userIdentifier = req.params.user_identifier;
+    // try {
+    //     let filter = {"user_identifier": userIdentifier};
+    //     let update = req.body;
+    //     const options = {new: true}; 
+    //     const result = await User.findOneAndUpdate(
+    //         filter, update, options);
+    //     res.send(result)
+      
+    // }
+    // catch (error) {
+    //     res.status(400).json({ message: error.message })
+    // }
+
+
     try {
         const userIdentifier = req.params.user_identifier;
         const itemId = req.params.item_id;
     
-        let user = await User.findOne({"identifier": userIdentifier});
+        let user = await User.findOne({"user_identifier": userIdentifier});
         let item = user.bucket_list.id(itemId);
         item.completed = req.body['completed'];
         user.save(function (err) {
@@ -66,7 +81,7 @@ const removeItem = async (req, res) => {
     try {
         const userIdentifier = req.params.user_identifier;
         const itemId = req.params.item_id;
-        let user = await User.findOne({"identifier": userIdentifier});
+        let user = await User.findOne({"user_identifier": userIdentifier});
         user.bucket_list.id(itemId).remove();
         user.save(function (err) {
             if (err) return handleError(err)

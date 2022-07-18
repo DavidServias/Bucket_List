@@ -1,5 +1,7 @@
 import jsonwebtoken from 'jsonwebtoken';
+import { User } from '../models/user.js';
 const {jwt} = jsonwebtoken;
+
 
 
 const handle_login = async (request, response) => {
@@ -10,10 +12,26 @@ const handle_login = async (request, response) => {
        console.log("hi");
        response.send(payload);
        
-       
     }
     catch {
         response.send("login error");
+    }
+}
+
+const loginWithPassword = async (req, res) => {
+    console.log("loginWithPassordController");
+    try {
+        
+        let query = req.body;
+        const options = {new: true}; 
+        const result = await User.findOne(query, null, options);
+        console.log(result);
+        res.send(result);
+
+      
+    }
+    catch (error) {
+        res.status(400).json({ message: error.message })
     }
 }
 
@@ -36,5 +54,6 @@ const whoAreYou = async (request, response) => {
 
 export {
     handle_login,
-    whoAreYou
+    whoAreYou,
+    loginWithPassword
 }

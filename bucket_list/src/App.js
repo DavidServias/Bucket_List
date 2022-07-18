@@ -50,6 +50,7 @@ class App extends React.Component  {
   }
 
   showProfileView(userProfileData, guestView) {
+    console.log(userProfileData);
     this.setState({
       user: userProfileData,
       showLogin:false,

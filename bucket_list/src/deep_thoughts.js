@@ -48,7 +48,7 @@ export class DeepThoughts extends React.Component {
             <div id="deep-thought-container">
             <div className="heading">{this.props.profileName}'s Deep Thoughts</div>
             <Divider />
-                <List>
+            <List style={{height: 300, overflow: 'auto'}}>
                 {this.props.deepThoughts.map(function (thought) {
                     return (
                         <Thought 

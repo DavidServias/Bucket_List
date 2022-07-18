@@ -16,9 +16,9 @@ import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import Decorator from './card_decorator.js';
 import getIconColor from './getIconColor.js';
 import Modal from '@mui/material/Modal';
-//import AccountModal from './account_modal.js';
 import Box from '@mui/material/Box';
-//import Button from '@mui/material/Button';
+import Tab from '@mui/material/Tab';
+import Tabs from '@mui/material/Tabs';
 
 
 // PROPS:
@@ -35,7 +35,9 @@ export class PeopleList extends Component {
         this.getSuggestedAccounts = this.getSuggestedAccounts.bind(this);
         this.addItemPlaceholderText = "Add an Item to Your Bucket List";
         this.removeAccount = this.removeAccount.bind(this);
+        this.handleTabChange = this.handleTabChange.bind(this);
         this.state = {
+          accountsToDisplay: "following",
           newItem: "",
           followedAccounts: [],
           suggestedAccounts: [], };
@@ -65,44 +67,50 @@ export class PeopleList extends Component {
       let accounts = await api.findFriends(this.props.userIdentifier, this.props.friendsListData);
       console.log("suggestedAccounts");
       console.log(accounts);
-      this.setState({suggestedAccounts: accounts});
+      this.setState({
+        suggestedAccounts: accounts,
+        accountsToDisplay: 0
+      });
     }
+
+    handleTabChange = (event, newValue) => {
+      this.setState({accountsToDisplay: newValue});
+    };
+
     
     render(){
         return ( 
             <Decorator>
               <div id="people-list-container">
               <div id="people_list">
-              <div className="heading">Following</div>
-            <List >
-              <FollowedList 
-                data={this.props.friendsListData}
-                refreshUserdata = {this.props.refreshUserdata}
-                removeAccount = {this.removeAccount}
-                userIdentifier = {this.props.userIdentifier}
-                guestView = {this.props.guestView}
-                viewGuestProfile = {this.props.viewGuestProfile}
-              />
-            </List>  
-            
-            {this.props.guestView ? null:
-            //render account suggestions, if user is looking at they're
-            // own profile
-            <div>
-              <Divider />
-                <div className="heading2">
-                    BucketList Suggestions: 
-                </div>
+              <Tabs value={this.state.accountsToDisplay} onChange={this.handleTabChange} centered>
+                <Tab label="Following" />
+                {this.props.guestView ? null: <Tab label="Suggested" />}
+              </Tabs>
+              
+              {this.state.accountsToDisplay === 0 && 
+                  <List style={{maxHeight: 325, overflow: 'auto'}}>
+                  <FollowedList 
+                    data={this.props.friendsListData}
+                    refreshUserdata = {this.props.refreshUserdata}
+                    removeAccount = {this.removeAccount}
+                    userIdentifier = {this.props.userIdentifier}
+                    guestView = {this.props.guestView}
+                    viewGuestProfile = {this.props.viewGuestProfile}
+                  />
+                </List> 
+              }
+
+              {this.state.accountsToDisplay === 1 && 
                 <SuggestionsList 
                     userIdentifier = {this.props.userIdentifier}
                     refreshUserdata = {this.props.refreshUserdata}
                     followAccount = {this.followAccount}
-                    data = {this.state.suggestedAccounts}
-                    
-                />
-            </div>
-            }
-            
+                    data = {this.state.suggestedAccounts} 
+                  />
+              
+              }
+ 
               </div>
             </div>
             </Decorator>
@@ -110,6 +118,8 @@ export class PeopleList extends Component {
         );
     }
 }
+
+
 
 // PROPS:
 // data={this.props.friendsListData}
@@ -122,7 +132,7 @@ function FollowedList(props) {
   console.log("followedList():");
   console.log(props.data);
   return (
-    <div>
+    <List style={{maxHeight: 300, overflow: 'auto'}}>
         {!props.data ? <h1>Loading</h1>:
           props.data.map(function (friend) {
          
@@ -143,7 +153,7 @@ function FollowedList(props) {
 
           );
         })}
-      </div>
+      </List>
     );
 };
 
@@ -152,7 +162,7 @@ function SuggestionsList(props) {
   return (
     <div>
      
-      <List>
+     <List style={{maxHeight: 300, overflow: 'auto'}}>
       { !props.data ? <h1>Loading</h1>:
           props.data.map(function (friend) {
           return (

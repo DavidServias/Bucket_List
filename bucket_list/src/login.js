@@ -4,6 +4,7 @@ import "./css/login.css";
 import AnimatedBackground from './animated_background';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import api from "./apiCalls";
 require('dotenv').config();
 const jwt  = require('jsonwebtoken');
 
@@ -25,6 +26,7 @@ export default class LoginScreen extends Component {
         this.handleGoogleResponse = this.handleGoogleResponse.bind(this);
         this.generateIdentifier = this.generateIdentifier.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.handleLogin = this.handleLogin.bind(this);
     }
 
     async componentDidMount() {
@@ -76,7 +78,6 @@ export default class LoginScreen extends Component {
             console.log("profile data found");
             this.props.showProfileView(profileData, false);
             // change true to false after guestview is working
-
         }
     }
  
@@ -95,13 +96,31 @@ export default class LoginScreen extends Component {
     
         return userIdentifier;
     }
+
+    async handleLogin() {
+        
+        console.log("handleLogin()");
+        let body = '{"profile_name": "' + this.state.username + '",';
+        body += '"password" : "' + this.state.password + '"}';
+        console.log(body);
+        //let body = '{ "profile_name": "Sleepy","password": "password"}';
+        let profileData = await api.loginWithPassword(body);
+        if (profileData.message === "no profile matching that user_identifier") {
+            console.log("error");
+        // If google user has a profile already, set user in state to
+        // this user, and show praofile view.
+        } else {
+            console.log("profile data found");
+            this.props.showProfileView(profileData, false);
+            // change true to false after guestview is working
+        }
+    }
     
 
   render() {
     return (
         <div >
            <AnimatedBackground/>
-
             <div className="login-buttons">
                 <form className="form">
                     <TextField
@@ -110,9 +129,6 @@ export default class LoginScreen extends Component {
                         label="Username"
                         id="username"
                         placeholder="username"
-                        // formControlProps={{
-                        //     fullWidth: true
-                        // }}
                         onChange={this.handleChange}
                         type="text"
                     />
@@ -121,9 +137,6 @@ export default class LoginScreen extends Component {
                         className="textField"
                         label="Password"
                         id="password"
-                        // formControlProps={{
-                        //     fullWidth: true
-                        // }}
                         onChange={this.handleChange}
                         type="password"
                     />

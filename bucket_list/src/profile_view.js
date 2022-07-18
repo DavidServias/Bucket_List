@@ -26,10 +26,11 @@ import Grid from '@mui/material/Grid';
 class ProfileView extends React.Component {
     constructor(props){
         super(props);
+        this.backgroundColor = '#577590';
     }
     render(){  
         return (
-            <Box  sx={{ width: '100%', backgroundColor:'#577590' }}>
+            <Box  sx={{ width: '100%', backgroundColor: this.backgroundColor }}>
                     <MyAppBar setUserToNull = {this.props.setUserToNull}/>
                     <Grid container 
                         spacing={1}                 

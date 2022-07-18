@@ -28,8 +28,46 @@ async function createUser(data) {
     response = response.json();   
 
     return response;
+};
+
+
+/*******************************************************
+**Function Name: loginWithPassword
+**Description: checks args
+**Params: both command line args
+**Pre-Conditions: na
+**Post-Conditions:Returns an array of account_summaries
+**TODO:
+1. Handle errors.
+********************************************************/
+// ROUTE:
+// router.delete('/:user_identifier/:thought_id/remove-thought', removeThought);
+// FUNCTION CALL: 
+//  await api.removeThought(this.props.userIdentifier, this.props.thought_id);
+async function loginWithPassword(requestBody) {
+    console.log("loginWithPassword()");
+    let url = "http://localhost:8080/login/password"
+    console.log(requestBody);
+    console.log(url);
+    let options = {
+        method: 'POST',
+        headers: {'Content-Type':'application/json;charset=utf-8'},
+        body: requestBody
+    };
+
+    var response= await fetch(url, options);
+    //response = response.json();
+    return await response.json();
 
 };
+
+
+
+
+
+
+
+
 
 
 
@@ -67,8 +105,6 @@ async function updateStatus(userIdentifier, newStatus) {
     var response = await fetch(url,options);
     return response;
 };
-
-
 
 
 /*******************************************************
@@ -115,6 +151,7 @@ async function removeBucketListItem(userIdentifier, itemId) {
         .then(response => response.json())
         .then(data => console.log(data));
 }
+
 
 /*******************************************************
 **Function Name: args_are_valid
@@ -232,6 +269,7 @@ async function removeThought(userIdentifier, thoughtId) {
 
 };
 
+
 /*******************************************************
 **Function Name: args_are_valid
 **Description: checks args
@@ -260,8 +298,6 @@ async function findFriends(userIdentifier) {
         nextSuggestion['account_identifier'] = response[i].user_identifier;
         responseArr.push(nextSuggestion);
     }
-    // console.log("response from findFriends: ****************************");
-    // console.log(responseArr);
     return responseArr;
 }
 
@@ -300,7 +336,6 @@ async function follow(userIdentifier, accountSummary) {
     };
     var response= await fetch(url, options);
     var data = await response.json();
-    
     
 }
 
@@ -341,6 +376,7 @@ export default {
     unfollow,
     updateStatus, 
     addThought,
-    removeThought
+    removeThought,
+    loginWithPassword
 
 }

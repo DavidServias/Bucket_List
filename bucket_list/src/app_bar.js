@@ -15,11 +15,11 @@ const theme = createTheme({
   },
   palette: {
     primary: {
-      main:  "#00ff00",
-      contrastText: "#b30000"
+      main:  "#a7ce3b",
+      contrastText: "##577590"
     },
     neutral: {
-      main: '#64748B',
+      main: '#a7ce3b',
       contrastText: '#fff',
     },
   },
@@ -48,7 +48,7 @@ export default function MyAppBar(props) {
       <MenuIcon />
     </IconButton>
     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-      News
+      Welcome to BucketList
     </Typography>
     <Button color="inherit" onClick={handleSignOut}>Sign Out</Button>
   </Toolbar>

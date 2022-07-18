@@ -1,5 +1,7 @@
 :root {
     --heightA : 400px;
+    --background-color: #ffffff;
+    --app-bar-color:  #a7ce3b;
 }
 
 #about-me-container {
@@ -13,7 +15,7 @@
 #about-me-container img {
     width: 80%; 
     /* border: red 2px solid; */
-    background-color: #a7ce3b;
+    background-color: var(--background-color);
 }
 
 
@@ -61,23 +63,23 @@ xl, extra-large: 1536px */
     flex-direction: column;
     justify-content: left;
     /* border: red 2px solid; */
-    background-color: #a7ce3b;
+    background-color: var(--background-color);
 }
 
 
 #followed-list-container  {
     border: none;
-    background-color: #a7ce3b;
+    background-color: var(--background-color);
 
 }
 #people-list-container {
     height: var(--heightA);
-    background-color: #a7ce3b;
+    background-color: var(--background-color);
 }
 
 #deep-thought-container {
     height: var(--heightA);
-    background-color: #a7ce3b;
+    background-color: var(--background-color);
     width: 70%;
     margin: auto;
 }

@@ -15,15 +15,16 @@ import ListItemText from '@mui/material/ListItemText';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CheckBox from '@mui/material/Checkbox';
 import api from './apiCalls';
+import Decorator from './card_decorator';
 
 
-const Decorator = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#a7ce3b',
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-  }));
+// const Decorator = styled(Paper)(({ theme }) => ({
+//     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#a7ce3b',
+//     ...theme.typography.body2,
+//     padding: theme.spacing(1),
+//     textAlign: 'center',
+//     color: theme.palette.text.secondary,
+//   }));
 
 // PROPS:
 // userIdentifier = {this.props.data.user_identifier}
@@ -62,7 +63,7 @@ export class BucketList extends React.Component {
             <div className="heading">{this.props.profileName}'s Bucket List</div>
             <Divider />
             <nav aria-label="secondary mailbox folders">
-                <List>
+                <List style={{height: 300, overflow: 'auto'}}>
                 {this.props.bucketList.map(function (item) {
                     return (
                         <Item item_text={item['text']}

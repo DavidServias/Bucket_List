@@ -38,7 +38,7 @@ export class BucketList extends React.Component {
         this.handleChange = this.handleChange.bind(this);
         this.addNewItem = this.addNewItem.bind(this);
         this.state = {newItem: ""};
-        this.addItemPlaceholderText = "Add an Item to Your Bucket List";
+        this.addItemPlaceholderText = "Add an Item to Your BucketList";
     }
 
     handleChange(event) {
@@ -60,10 +60,13 @@ export class BucketList extends React.Component {
         return (
             <Decorator>
             <div id="bucket-list-container">
-            <div className="heading">{this.props.profileName}'s Bucket List</div>
+            <div className="heading">{this.props.profileName}'s BucketList</div>
             <Divider />
             <nav aria-label="secondary mailbox folders">
                 <List style={{height: 300, overflow: 'auto'}}>
+                {this.props.bucketList.length === 0 && 
+                <div className='heading2'>Add some items to your BucketList.</div>
+                }
                 {this.props.bucketList.map(function (item) {
                     return (
                         <Item item_text={item['text']}

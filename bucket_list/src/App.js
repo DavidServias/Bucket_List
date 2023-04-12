@@ -5,6 +5,7 @@ import ProfileView from './profile_view';
 import api from './apiCalls';
 import LoginScreen from './login';
 import CreateProfileForm from './createProfileForm';
+import AnimatedBackground from './animated_background';
 require('dotenv').config();
 
 
@@ -111,6 +112,7 @@ class App extends React.Component  {
   render() {
     return (
       <div className="App">
+          <AnimatedBackground/>
         { (this.state.showLogin) ?
           (<LoginScreen 
             lookUpUser = {this.lookUpUser}

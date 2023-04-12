@@ -62,7 +62,7 @@ function AboutMe(props) {
             <Grid item xs={12}>
                 <div className="font-weight-600 mb-3 text-muted mt-n1">
                     <p>Status:</p>
-                    <p>"{props.status}"</p> 
+                    <h6>"{props.status}"</h6> 
                 </div>
             </Grid>
 
@@ -71,7 +71,7 @@ function AboutMe(props) {
                 <Button variant="outlined" 
                     startIcon={<ArrowBackIcon />}
                     onClick = {backToMyProfile}
-                    sx={{backgroundColor: "#F8961E"}}
+                    sx={{backgroundColor: "#577590", color: "#000"}}
                 >Back to My Profile
                 </Button>
             </Grid>
@@ -144,7 +144,8 @@ function StatusUpdater(props) {
             <Button variant="outlined" 
                 startIcon={<EditIcon />}
                 onClick = {toggleUpdatingState}
-            sx={{backgroundColor: "#F8961E"}}
+                
+            sx={{backgroundColor: "#577590", color: "#000"}}
             >Update Status</Button>
         }
         </Grid>

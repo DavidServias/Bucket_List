@@ -14,6 +14,7 @@ import ListItemText from '@mui/material/ListItemText';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CheckBox from '@mui/material/Checkbox';
 import Decorator from './card_decorator.js';
+import LightbulbOutlinedIcon from '@mui/icons-material/LightbulbOutlined';
 
 
 //PROPS
@@ -49,6 +50,9 @@ export class DeepThoughts extends React.Component {
             <div className="heading">{this.props.profileName}'s Deep Thoughts</div>
             <Divider />
             <List style={{height: 300, overflow: 'auto'}}>
+                {this.props.deepThoughts.length === 0 && 
+                <div className='heading2'>You don't have any deep thoughts.</div>
+                }
                 {this.props.deepThoughts.map(function (thought) {
                     return (
                         <Thought 
@@ -122,9 +126,11 @@ class Thought  extends React.Component {
         const label = { inputProps: { "aria-label": "Checkbox demo" } };
         return (
             <ListItem disablePadding>
-                <ListItemButton component="a" href="#">
+                <LightbulbOutlinedIcon color='#577590'/>
+                <ListItemButton component="a" >
                     <ListItemText primary = {this.props.item_text}
-                        sx={{textDecoration:textStyleOveride}} />
+                        sx={{textDecoration:textStyleOveride,
+                            fontStyle: 'italic'}} />
                 </ListItemButton>
                 
                 {this.props.guestView ? null:
